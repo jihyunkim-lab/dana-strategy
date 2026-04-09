@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다나앤페타 시즌 전략 대시보드</title>
+<style>
+:root{
+  --bg:#0d0d0f;--bg2:#141417;--bg3:#1c1c21;--bg4:#232329;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --t1:#f0f0f3;--t2:#a8a8b8;--t3:#5a5a70;
+  --blue:#4f8ef7;--blue-dim:rgba(79,142,247,0.15);--blue-border:rgba(79,142,247,0.2);
+  --green:#3ecf7a;--green-dim:rgba(62,207,122,0.12);--green-border:rgba(62,207,122,0.2);
+  --red:#f2564a;--red-dim:rgba(242,86,74,0.12);--red-border:rgba(242,86,74,0.2);
+  --amber:#f0a030;--amber-dim:rgba(240,160,48,0.12);--amber-border:rgba(240,160,48,0.2);
+  --purple:#a07cf7;--purple-dim:rgba(160,124,247,0.12);--purple-border:rgba(160,124,247,0.2);
+  --r-sm:6px;--r-md:10px;--r-lg:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1200px;margin:0 auto;padding:28px 20px}
+.page-header{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.page-title{font-size:20px;font-weight:600;color:var(--t1);letter-spacing:-0.3px}
+.page-sub{font-size:11px;color:var(--t3);margin-top:4px}
+/* 다크모드 토글 */
+.theme-toggle{display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:var(--r-md);background:var(--bg3);border:1px solid var(--border2);cursor:pointer;font-size:11px;color:var(--t2);white-space:nowrap;transition:all .2s;flex-shrink:0}
+.theme-toggle:hover{border-color:rgba(255,255,255,0.2);color:var(--t1)}
+.toggle-icon{font-size:14px}
+body.light-mode{
+  --bg:#f5f5f7;--bg2:#ffffff;--bg3:#f0f0f2;--bg4:#e8e8ec;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.13);
+  --t1:#0a0a0f;--t2:#4a4a60;--t3:#8a8a9a;
+  --blue:#1d4ed8;--blue-dim:rgba(37,99,235,0.08);--blue-border:rgba(37,99,235,0.18);
+  --green:#166634;--green-dim:rgba(22,163,74,0.08);--green-border:rgba(22,163,74,0.18);
+  --red:#991b1b;--red-dim:rgba(220,38,38,0.08);--red-border:rgba(220,38,38,0.18);
+  --amber:#92400e;--amber-dim:rgba(217,119,6,0.08);--amber-border:rgba(217,119,6,0.18);
+  --purple:#6b21a8;--purple-dim:rgba(124,58,237,0.08);--purple-border:rgba(124,58,237,0.18);
+}
+/* 탭 */
+.nav{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto;gap:0}
+.ntab{padding:10px 18px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--t3);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none}
+.ntab:hover{color:var(--t2)}
+.ntab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.pane{display:none}.pane.on{display:block}
+/* KPI */
+.kpi-top{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.kpi-col{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 16px}
+.kpi-col-title{font-size:10px;font-weight:600;color:var(--t2);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border);letter-spacing:.4px;text-transform:uppercase}
+.kr{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.km{background:var(--bg3);border-radius:var(--r-sm);padding:8px 10px}
+.kl{font-size:9px;color:var(--t3);margin-bottom:2px;font-weight:500;letter-spacing:.2px}
+.kv{font-size:15px;font-weight:600;color:var(--t1)}
+.kv.bl{color:var(--blue)}.kv.gn{color:var(--green)}.kv.rd{color:var(--red)}.kv.am{color:var(--amber)}
+.ks{font-size:9px;color:var(--t3);margin-top:1px}
+.kpi4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.km2{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px}
+/* 공통 */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px}
+.bt{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.bs{font-size:10px;color:var(--t3);margin-bottom:10px}
+.sec{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);letter-spacing:-.2px}
+.hr{height:1px;background:var(--border);margin:28px 0}
+.leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)}
+.ls{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+/* 바 차트 */
+.brow{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.bname{font-size:10px;color:var(--t1);width:96px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btrack{flex:1;height:15px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.bfill{height:100%;border-radius:3px;opacity:.85}
+.bval{font-size:10px;color:var(--t2);width:50px;text-align:right;flex-shrink:0}
+.brate{font-size:10px;width:36px;text-align:right;flex-shrink:0;font-weight:600}
+.rh{color:var(--red)}.rm{color:var(--amber)}.rl{color:var(--green)}
+/* 매트릭스 */
+.mat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:24px}
+.mat-title{font-size:14px;font-weight:600;color:var(--t1)}
+.mat-period{font-size:10px;color:var(--t3);margin-top:3px;margin-bottom:9px}
+.mat-desc{font-size:10px;color:var(--t2);margin-bottom:13px;line-height:1.65;padding:8px 12px;background:var(--bg3);border-radius:var(--r-sm);border-left:2px solid var(--blue)}
+.mat-desc b{color:var(--t1);font-weight:600}
+.col-hdrs{display:grid;grid-template-columns:88px 1fr 1fr 1fr;gap:5px;margin-bottom:5px}
+.col-h{font-size:10px;font-weight:500;color:var(--t3);text-align:center;padding:6px 7px;background:var(--bg3);border-radius:var(--r-sm)}
+.mat-row{display:grid;grid-template-columns:88px 1fr 1fr 1fr;gap:5px;margin-bottom:5px}
+.row-lbl{font-size:10px;font-weight:500;color:var(--t3);display:flex;align-items:center;justify-content:flex-end;text-align:right;padding-right:6px;line-height:1.35}
+.cell{border-radius:var(--r-sm);padding:10px 11px;min-height:78px}
+.cell.ck{background:var(--blue-dim);border:1px solid var(--blue-border)}
+.cell.cg{background:var(--green-dim);border:1px solid var(--green-border)}
+.cell.cf{background:var(--red-dim);border:1px solid var(--red-border)}
+.cell.cw{background:var(--amber-dim);border:1px solid var(--amber-border)}
+.cell.cn{background:var(--purple-dim);border:1px solid var(--purple-border)}
+.cell.cm{background:var(--bg3);border:1px solid var(--border)}
+.cbadge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:5px}
+.cbadge.k{background:var(--blue-dim);color:var(--blue)}
+.cbadge.g{background:var(--green-dim);color:var(--green)}
+.cbadge.f{background:var(--red-dim);color:var(--red)}
+.cbadge.w{background:var(--amber-dim);color:var(--amber)}
+.cbadge.n{background:var(--purple-dim);color:var(--purple)}
+.cbadge.m{background:var(--bg4);color:var(--t3)}
+.ci{font-size:10px;color:var(--t2);margin-bottom:4px;line-height:1.45}
+.ci b{color:var(--t1);font-weight:600}
+.ci small{font-size:9px;color:var(--t3)}
+.empty-cell{font-size:10px;color:var(--t3);font-style:italic}
+.tp{display:inline-flex;font-size:8px;padding:1px 5px;border-radius:10px;font-weight:600;margin-left:3px;vertical-align:middle;background:var(--red-dim);color:var(--red)}
+.tp.up{background:var(--green-dim);color:var(--green)}
+/* 시즌 핵심 */
+.sc-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.sc-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px}
+.sc-title{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.sc-sub{font-size:10px;color:var(--t3);margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.sc-item{display:flex;gap:8px;margin-bottom:7px}
+.sc-num{font-size:10px;color:var(--t3);width:14px;text-align:right;flex-shrink:0;margin-top:1px}
+.sc-name{font-size:11px;font-weight:600;color:var(--t1)}
+.sc-meta{font-size:9px;color:var(--t3);margin-top:1px}
+.sc-badge{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:500;display:inline-block;margin-top:2px}
+/* 부족 카테고리 */
+.sh-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.sh-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px}
+.sh-title{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.sh-sub{font-size:10px;color:var(--t3);margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.sh-item{display:flex;gap:7px;margin-bottom:8px}
+.sh-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.sh-name{font-size:11px;font-weight:600;color:var(--t1)}
+.sh-note{font-size:10px;color:var(--t2);margin-top:2px;line-height:1.5}
+/* 판별 이유 카드 */
+.reason-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.reason-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px}
+.rc-badge{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600;display:inline-block;margin-bottom:8px}
+.rc-badge.ss{background:var(--blue-dim);color:var(--blue)}
+.rc-badge.fw{background:var(--green-dim);color:var(--green)}
+.rc-badge.now{background:var(--red-dim);color:var(--red)}
+.rc-title{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:6px}
+.rc-formula{background:var(--bg3);border-radius:var(--r-sm);padding:8px 10px;margin-bottom:8px;font-size:10px;color:var(--t2);line-height:1.6}
+.rc-formula b{color:var(--t1);font-weight:600}
+.rc-formula .formula-text{font-size:11px;font-weight:600;color:var(--blue);display:block;margin-top:4px;padding:4px 8px;background:var(--blue-dim);border-radius:4px}
+.rc-item{font-size:10px;color:var(--t2);margin-bottom:4px;padding-left:8px;position:relative;line-height:1.5}
+.rc-item::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%;background:var(--t3)}
+.rc-item b{color:var(--t1);font-weight:600}
+.rc-note{font-size:9px;color:var(--t3);margin-top:6px;padding:4px 8px;background:var(--bg3);border-radius:4px;line-height:1.5}
+/* 데이터 테이블 */
+.reason-table{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:20px;overflow:hidden}
+.rt-title{font-size:11px;font-weight:600;color:var(--t1);padding:12px 14px 8px;border-bottom:1px solid var(--border)}
+.rt-sub{font-size:10px;color:var(--t3);padding:0 14px 10px;font-weight:400}
+.tbl-wrap{overflow-x:auto;max-height:320px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
+thead th{background:var(--bg3);font-size:10px;font-weight:600;color:var(--t2);padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2}
+thead th:first-child{text-align:left}
+tbody td{padding:5px 10px;border-bottom:1px solid var(--border);font-size:11px;text-align:right;color:var(--t1)}
+tbody td:first-child{text-align:left}
+tbody tr:hover td{background:var(--bg3)}
+/* 우선순위 */
+.pri{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px;margin-bottom:8px}
+.pri-top{display:flex;align-items:flex-start;gap:9px;margin-bottom:6px}
+.pnum{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.p1{background:var(--blue-dim);color:var(--blue)}.p2{background:var(--green-dim);color:var(--green)}
+.p3{background:var(--purple-dim);color:var(--purple)}.p4{background:var(--amber-dim);color:var(--amber)}
+.p5{background:var(--red-dim);color:var(--red)}
+.pri-info{flex:1}
+.pri-title{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:1px}
+.pri-cats{font-size:10px;color:var(--t3)}
+.pri-tgt{font-size:10px;padding:2px 8px;border-radius:var(--r-sm);background:var(--bg3);color:var(--t2);white-space:nowrap;border:1px solid var(--border)}
+.pri-body{font-size:11px;color:var(--t2);line-height:1.6;padding-left:33px}
+.pri-body b{color:var(--t1);font-weight:600}
+/* 월 플랜 */
+.mp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.mp{border-radius:var(--r-md);padding:12px 13px;border:1px solid var(--border)}
+.mp.m4{background:var(--red-dim)}.mp.m5{background:var(--green-dim)}.mp.m6{background:var(--blue-dim)}
+.mp-title{font-size:11px;font-weight:600;margin-bottom:5px}
+.m4 .mp-title{color:var(--red)}.m5 .mp-title{color:var(--green)}.m6 .mp-title{color:var(--blue)}
+.mp-item{font-size:10px;color:var(--t2);margin-bottom:3px;padding-left:8px;position:relative;line-height:1.4}
+.mp-item::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%;background:var(--t3)}
+.mp-item b{color:var(--t1);font-weight:600}
+/* 트렌드 */
+.trend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.tr{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-md);padding:11px}
+.tr-badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600;display:inline-block;margin-bottom:5px;background:var(--red-dim);color:var(--red)}
+.tr-badge.up{background:var(--green-dim);color:var(--green)}
+.tr-badge.bl{background:var(--blue-dim);color:var(--blue)}
+.tr-title{font-size:11px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.tr-body{font-size:10px;color:var(--t2);line-height:1.55}
+.tr-body b{color:var(--t1);font-weight:600}
+.tr-src{font-size:9px;color:var(--t3);margin-top:4px}
+/* 상품 기획 카드 */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.plan-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px}
+.pc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.pc-icon{width:30px;height:30px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.pc-title{font-size:11px;font-weight:600;color:var(--t1)}
+.pc-sub{font-size:9px;color:var(--t3);margin-top:1px}
+.pc-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:9px}
+.pk{background:var(--bg3);border-radius:var(--r-sm);padding:5px 6px;text-align:center}
+.pkl{font-size:9px;color:var(--t3);margin-bottom:1px}
+.pkv{font-size:11px;font-weight:600;color:var(--t1)}
+.pitem{display:flex;gap:5px;margin-bottom:5px}
+.pinum{font-size:9px;color:var(--t3);width:13px;flex-shrink:0;text-align:right;margin-top:1px}
+.piname{font-size:10px;font-weight:600;color:var(--t1);margin-bottom:1px}
+.pidesc{font-size:9px;color:var(--t2);line-height:1.45}
+.pitags{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.ptag{font-size:8px;padding:1px 4px;border-radius:3px;font-weight:500}
+.pt-hot{background:var(--red-dim);color:var(--red)}.pt-mat{background:var(--blue-dim);color:var(--blue)}
+.pt-col{background:var(--purple-dim);color:var(--purple)}.pt-key{background:var(--green-dim);color:var(--green)}
+.pt-aov{background:var(--amber-dim);color:var(--amber)}
+/* 커버업 세트 카드 */
+.set-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;margin-bottom:10px}
+.set-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.set-num{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.set-info{flex:1}
+.set-title{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:1px}
+.set-sub{font-size:9px;color:var(--t3);line-height:1.4}
+.set-tags{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.set-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:12px}
+.sk{background:var(--bg3);border-radius:var(--r-sm);padding:6px 7px;text-align:center}
+.skl{font-size:9px;color:var(--t3);margin-bottom:2px}
+.skv{font-size:11px;font-weight:600;color:var(--t1)}
+.set-body{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.set-col{background:var(--bg3);border-radius:var(--r-sm);padding:10px 11px}
+.sc-head{font-size:10px;font-weight:600;color:var(--t2);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.sc-i{font-size:10px;color:var(--t2);margin-bottom:4px;padding-left:8px;position:relative;line-height:1.5}
+.sc-i::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%;background:var(--t3)}
+.sc-i b{color:var(--t1);font-weight:600}
+.set-footer{margin-top:10px;padding:8px 11px;border-radius:var(--r-sm);font-size:10px;line-height:1.6}
+.set-footer b{font-weight:600}
+.sf-blue{background:var(--blue-dim);color:var(--blue)}
+.sf-green{background:var(--green-dim);color:var(--green)}
+.sf-purple{background:var(--purple-dim);color:var(--purple)}
+.sf-amber{background:var(--amber-dim);color:var(--amber)}
+/* AOV 바 */
+.aov-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.aov-lbl{font-size:10px;color:var(--t1);width:170px;flex-shrink:0;font-weight:500}
+.aov-track{flex:1;height:22px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.aov-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:8px}
+.aov-txt{font-size:10px;color:#fff;font-weight:600;white-space:nowrap}
+.aov-right{font-size:10px;width:70px;text-align:right;flex-shrink:0;font-weight:600}
+/* 가이드 */
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.guide-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px;border-top:2px solid transparent}
+.guide-card.do{border-top-color:var(--green)}.guide-card.dont{border-top-color:var(--red)}
+.gc-title{font-size:11px;font-weight:600;color:var(--t1);margin-bottom:7px}
+.gc-item{font-size:10px;color:var(--t2);margin-bottom:5px;padding-left:8px;position:relative;line-height:1.5}
+.gc-item::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%}
+.do .gc-item::before{background:var(--green)}.dont .gc-item::before{background:var(--red)}
+.gc-item b{color:var(--t1);font-weight:600}
+/* 스케줄 */
+.sch-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.sch-cell{border-radius:var(--r-md);padding:11px 12px}
+.sc-m4{background:var(--red-dim);border:1px solid var(--red-border)}
+.sc-m5a{background:var(--amber-dim);border:1px solid var(--amber-border)}
+.sc-m5b{background:var(--green-dim);border:1px solid var(--green-border)}
+.sc-m6{background:var(--blue-dim);border:1px solid var(--blue-border)}
+.sch-title{font-size:11px;font-weight:600;margin-bottom:3px}
+.sc-m4 .sch-title{color:var(--red)}.sc-m5a .sch-title{color:var(--amber)}
+.sc-m5b .sch-title{color:var(--green)}.sc-m6 .sch-title{color:var(--blue)}
+.sch-sub2{font-size:9px;color:var(--t3);margin-bottom:6px}
+.sch-item{font-size:10px;color:var(--t2);margin-bottom:3px;padding-left:7px;position:relative;line-height:1.4}
+.sch-item::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%;background:var(--t3)}
+.sch-item b{color:var(--t1);font-weight:600}
+.sch-kpi{font-size:10px;font-weight:600;margin-top:6px;padding:3px 7px;border-radius:3px;background:var(--bg2);color:var(--t2)}
+/* tag */
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:500;white-space:nowrap;display:inline-block}
+.tag.c{background:var(--blue-dim);color:var(--blue)}.tag.g{background:var(--green-dim);color:var(--green)}
+.tag.f{background:var(--red-dim);color:var(--red)}.tag.n{background:var(--purple-dim);color:var(--purple)}
+/* footer */
+.footer{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+.footer button{padding:7px 14px;border-radius:var(--r-sm);background:var(--bg3);border:1px solid var(--border2);color:var(--t2);font-size:11px;cursor:pointer;font-family:inherit;transition:all .2s}
+.footer button:hover{background:var(--bg4);color:var(--t1)}
+@media(max-width:768px){
+  .kpi-top,.two,.three,.sc-wrap,.sh-wrap,.reason-grid,.trend-grid,.plan-grid,.mp-grid,.guide-grid{grid-template-columns:1fr}
+  .col-hdrs,.mat-row{grid-template-columns:70px 1fr 1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="page-header">
+  <div>
+    <div class="page-title">다나앤페타 시즌 전략 대시보드</div>
+    <div class="page-sub">25SS / 25FW / 26SS 3시즌 분석 · 26SS 2Q 실행 전략 · 2026년 4월 기준</div>
+  </div>
+  <button class="theme-toggle" onclick="document.body.classList.toggle('light-mode');this.querySelector('.toggle-icon').textContent=document.body.classList.contains('light-mode')?'🌙':'☀️';this.querySelector('.toggle-label').textContent=document.body.classList.contains('light-mode')?'다크 모드':'라이트 모드'">
+    <span class="toggle-icon">☀️</span>
+    <span class="toggle-label">라이트 모드</span>
+  </button>
+</div>
+
+<div class="nav">
+  <button class="ntab on" data-p="p1">전략 매트릭스 (3종)</button>
+  <button class="ntab" data-p="p2">시즌별 핵심 카테고리</button>
+  <button class="ntab" data-p="p3">시즌별 부족 카테고리</button>
+  <button class="ntab" data-p="p4">2Q 우선순위 실행 전략</button>
+</div>
+
+<!-- ══ P1 전략 매트릭스 ══ -->
+<div class="pane on" id="p1">
+<div class="kpi-top">
+  <div class="kpi-col">
+    <div class="kpi-col-title">25SS · 2025.03~08 · 6개월 · 판매가×수량 기준</div>
+    <div class="kr"><div class="km"><div class="kl">퀸잇 GMV (rpls)</div><div class="kv bl">13.0억</div><div class="ks">총 GMV 기준</div></div><div class="km"><div class="kl">PAID (판매가×수량)</div><div class="kv bl">11.0억</div><div class="ks">1,096,008,024원</div></div></div>
+    <div class="kr"><div class="km"><div class="kl">취소율</div><div class="kv rd">7.2%</div><div class="ks">건수 기준</div></div><div class="km"><div class="kl">반품율</div><div class="kv rd">13.3%</div><div class="ks">건수 기준</div></div></div>
+    <div class="kr"><div class="km"><div class="kl">취소+반품 합계</div><div class="kv rd">20.5%</div><div class="ks">SS 반품율 높음</div></div><div class="km"><div class="kl">시즌 AOV</div><div class="kv bl">33,200원</div><div class="ks">시즌 평균</div></div></div>
+  </div>
+  <div class="kpi-col">
+    <div class="kpi-col-title">25FW · 2025.09~2026.03 · 7개월 · 판매가×수량 기준</div>
+    <div class="kr"><div class="km"><div class="kl">퀸잇 GMV (rpls)</div><div class="kv am">12.6억</div><div class="ks">총 GMV 기준</div></div><div class="km"><div class="kl">PAID (판매가×수량)</div><div class="kv am">10.4억</div><div class="ks">1,038,207,434원</div></div></div>
+    <div class="kr"><div class="km"><div class="kl">취소율</div><div class="kv rd">6.9%</div><div class="ks">건수 기준</div></div><div class="km"><div class="kl">반품율</div><div class="kv rd">9.1%</div><div class="ks">건수 기준</div></div></div>
+    <div class="kr"><div class="km"><div class="kl">취소+반품 합계</div><div class="kv rd">16.0%</div><div class="ks">취소+반품 개선</div></div><div class="km"><div class="kl">시즌 AOV</div><div class="kv am">31,876원</div><div class="ks">7개월 가중평균</div></div></div>
+  </div>
+  <div class="kpi-col">
+    <div class="kpi-col-title">26SS · 2026.03~04.09 · 진행중 · 판매가×수량 기준</div>
+    <div class="kr"><div class="km"><div class="kl">퀸잇 GMV (rpls)</div><div class="kv gn">2.25억</div><div class="ks">3월+4월 부분 합산</div></div><div class="km"><div class="kl">PAID (판매가×수량)</div><div class="kv gn">1.88억</div><div class="ks">188,358,926원</div></div></div>
+    <div class="kr"><div class="km"><div class="kl">취소율</div><div class="kv rd">6.4%</div><div class="ks">3월 마감 기준</div></div><div class="km"><div class="kl">반품율</div><div class="kv rd">10.1%</div><div class="ks">3월 마감 기준</div></div></div>
+    <div class="kr"><div class="km"><div class="kl">취소+반품 합계</div><div class="kv rd">16.5%</div><div class="ks">3월 마감 기준</div></div><div class="km"><div class="kl">시즌 AOV</div><div class="kv gn">31,790원</div><div class="ks">3월 기준</div></div></div>
+  </div>
+</div>
+
+<!-- 시즌별 Top12 3컬럼 -->
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px">
+  <div class="box">
+    <div class="bt">25SS Top 12</div>
+    <div class="bs">2025.03~08 · 판매가×수량 기준 · 실제 데이터</div>
+    <div class="leg">
+      <div class="li"><div class="ls" style="background:var(--blue)"></div>핵심</div>
+      <div class="li"><div class="ls" style="background:var(--green)"></div>성장</div>
+      <div class="li"><div class="ls" style="background:var(--red)"></div>개선</div>
+      <div class="li"><div class="ls" style="background:var(--amber)"></div>조정</div>
+    </div>
+    <div id="barSS"></div>
+  </div>
+  <div class="box">
+    <div class="bt">25FW Top 12</div>
+    <div class="bs">2025.09~2026.03 · 판매가×수량 기준 · 실제 데이터</div>
+    <div class="leg">
+      <div class="li"><div class="ls" style="background:var(--blue)"></div>핵심</div>
+      <div class="li"><div class="ls" style="background:var(--green)"></div>성장</div>
+      <div class="li"><div class="ls" style="background:var(--red)"></div>개선</div>
+      <div class="li"><div class="ls" style="background:var(--amber)"></div>조정</div>
+    </div>
+    <div id="barFW"></div>
+  </div>
+  <div class="box">
+    <div class="bt">26SS Top 12 (3월 마감)</div>
+    <div class="bs">2026.03 · 판매가×수량 기준 · 실제 데이터</div>
+    <div class="leg">
+      <div class="li"><div class="ls" style="background:var(--blue)"></div>핵심</div>
+      <div class="li"><div class="ls" style="background:var(--green)"></div>성장</div>
+      <div class="li"><div class="ls" style="background:var(--red)"></div>개선</div>
+      <div class="li"><div class="ls" style="background:var(--amber)"></div>조정</div>
+    </div>
+    <div id="bar26SS"></div>
+  </div>
+</div>
+
+<!-- 월별 흐름 — 3시즌 + 26SS 4월 진행중 -->
+<div class="box" style="margin-bottom:20px">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+    <div>
+      <div class="bt">시즌별 월 PAID 거래액 흐름 — 판매가×수량 기준</div>
+      <div class="bs">25SS 3~8월 · 25FW 9월~2026.03 · 26SS 2026.03~04(4.9 기준 진행중) · 2026.03은 FW마감/26SS 동시 표시</div>
+    </div>
+    <div class="leg" style="margin-bottom:0">
+      <div class="li"><div class="ls" style="background:#3b82f6"></div>25SS</div>
+      <div class="li"><div class="ls" style="background:#22c55e"></div>25FW</div>
+      <div class="li"><div class="ls" style="background:#f59e0b"></div>26SS</div>
+    </div>
+  </div>
+  <div style="position:relative;width:100%;height:280px">
+    <canvas id="cmpChart" role="img" aria-label="25SS 25FW 26SS 월별 PAID 거래액 흐름 비교. 25SS 3~8월, 25FW 9월~2026년 3월, 26SS 2026년 3월 마감 및 4월 진행중."></canvas>
+  </div>
+  <div style="margin-top:8px;font-size:10px;color:var(--t3);padding:5px 9px;background:var(--bg3);border-radius:var(--r-sm);line-height:1.6">
+    <b style="color:var(--t2)">2026.03 안내:</b> 25FW 마감월(1.43억)과 26SS 시작월(1.43억)이 동일 기간이나 상품코드 기준으로 분리 표시 &nbsp;|&nbsp; <b style="color:var(--t2)">26SS 4월:</b> 4월 9일 기준 PAID 4,543만원 진행중 (↗ 월말 추산 1.3~1.5억 예상)
+  </div>
+</div>
+<div class="hr"></div>
+<div class="mat">
+  <div class="mat-title">① 25SS 리뷰 매트릭스</div>
+  <div class="mat-period">2025.03 ~ 08 · 6개월 · PAID 10.9억 · 취소+반품 20.5% (반품율 13.3% 주의)</div>
+  <div class="mat-desc"><b>핵심 발견:</b> 롱 원피스(2.2억)·니트(3.1억)·티셔츠(1.85억)가 SS 볼륨 주도 | 자켓 SS 3,800만→FW 4.1억 폭발, 봄 자켓 기회 미포착 | <b>반품율 13.3%로 FW 9.1% 대비 높음 — 사이즈·소재 정보 상세화 필요</b></div>
+  <div class="col-hdrs"><div></div><div class="col-h">AOV 낮음 (≤2.5만)</div><div class="col-h">AOV 중간 (2.5~3.8만)</div><div class="col-h">AOV 높음 (≥3.8만)</div></div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>낮음 (≤15%)</div>
+    <div class="cell ck"><div class="cbadge k">SS 핵심</div>
+      <div class="ci"><b>티셔츠</b> <small>SS 1.85억</small> — SS 볼륨 드라이버. 취반품율 최저권</div>
+      <div class="ci"><b>모자</b> <small>취반품율 7%</small> — 봄·여름 야외 수요. 효율 우수</div>
+      <div class="ci"><b>스카프</b> <small>SS 500만</small> — 취반품율 6% 최저. 효율 최상</div>
+    </div>
+    <div class="cell cg"><div class="cbadge g">SS 성장 기회</div>
+      <div class="ci"><b>수영복</b> <small>SS 2,500만</small> — SS 고유 카테고리. 볼륨 대폭 미개발</div>
+      <div class="ci"><b>반바지</b> <small>SS 3,800만</small> — 여름 수요. 볼륨 확대 기회 미포착</div>
+      <div class="ci"><b>샌들</b> <small>SS 2,200만</small> — 취반품율 양호. 시즌 특화 소량</div>
+    </div>
+    <div class="cell cm"><div class="cbadge m">SS 미해당</div><div class="empty-cell">머플러·패딩·코트 — FW 전용. SS 수요 없음 (정상)</div></div>
+  </div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>중간 (15~25%)</div>
+    <div class="cell ck"><div class="cbadge k">SS 핵심</div>
+      <div class="ci"><b>니트</b> <small>SS 3.1억</small> — SS에서도 최대. 봄 니트 수요 확인</div>
+      <div class="ci"><b>가디건</b> <small>SS 9,500만</small> — 봄·가을 전환기 안정</div>
+      <div class="ci"><b>롱 스커트</b> <small>SS 1.3억</small> — 봄·여름 수요. 볼륨 확대 여지</div>
+    </div>
+    <div class="cell cg"><div class="cbadge g">SS 성장 확대</div>
+      <div class="ci"><b>롱 원피스</b> <small>SS 2.2억 · SS 1위</small> — 봄·여름 핵심 드라이버</div>
+      <div class="ci"><b>블라우스</b> <small>SS 6,800만</small> — SS 검증. FW에서 85% 급감</div>
+      <div class="ci"><b>긴바지</b> <small>SS 1.8억</small> — 연중 볼륨. 취반품율 관리 필요</div>
+    </div>
+    <div class="cell cf"><div class="cbadge f">SS 놓친 기회</div>
+      <div class="ci"><b>자켓</b> <small>SS 3,800만 → FW 4.1억</small> — SS 소량, FW 폭발. 봄 자켓 선점 실패</div>
+    </div>
+  </div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>높음 (≥25%)</div>
+    <div class="cell cm"><div class="cbadge m">해당 없음</div><div class="empty-cell">SS 고취반품율 카테고리 없음 — 구조적으로 건전</div></div>
+    <div class="cell cm"><div class="cbadge m">해당 없음</div><div class="empty-cell">SS 구조상 아우터 취반품율 이슈 없음</div></div>
+    <div class="cell cm"><div class="cbadge m">해당 없음</div><div class="empty-cell">고단가 FW 아우터 — SS에는 없음</div></div>
+  </div>
+</div>
+<div class="hr"></div>
+<div class="mat">
+  <div class="mat-title">② 25FW 리뷰 매트릭스</div>
+  <div class="mat-period">2025.09 ~ 2026.02 · 6개월 · PAID 8.9억 · 취소+반품 16.0%</div>
+  <div class="mat-desc"><b>핵심 발견:</b> 니트 단일 21.5% 집중 — 브랜드 리스크 구조 | 코트(32.3%)·퍼무스탕(35.4%) 취반품율 위험 | 롱 원피스(재진행62)·롱 스커트(재진행35) 재진행 레버리지 성공 | <b>반품율 9.1%로 SS 13.3% 대비 개선 — FW 상세 페이지 전략 SS에도 적용 필요</b></div>
+  <div class="col-hdrs"><div></div><div class="col-h">AOV 낮음 (≤2.5만)</div><div class="col-h">AOV 중간 (2.5~3.8만)</div><div class="col-h">AOV 높음 (≥3.8만)</div></div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>낮음 (≤15%)</div>
+    <div class="cell ck"><div class="cbadge k">FW 핵심 유지</div>
+      <div class="ci"><b>머플러</b> <small>PAID 3.7억·재진행9</small> — 10.8% 최저. FW 3위</div>
+      <div class="ci"><b>모자</b> <small>PAID 1억·재진행5</small> — 7.4% 최저. 봄 전환 수혜</div>
+      <div class="ci"><b>스카프</b> <small>PAID 663만·재진행10</small> — 5.7% 최저</div>
+    </div>
+    <div class="cell cg"><div class="cbadge g">FW 성장 확대</div>
+      <div class="ci"><b>트레이닝 세트</b> <small>PAID 3.7억·재진행3</small> — 16.8% 건전. 연중 수요</div>
+      <div class="ci"><b>티셔츠</b> <small>PAID 3.4억·재진행34</small> — 11.4%. FW에도 볼륨 유지</div>
+      <div class="ci"><b>셔츠</b> <small>PAID 2.2억·재진행16</small> — 15.4%. FW 안정 수요</div>
+    </div>
+    <div class="cell cn"><div class="cbadge n">FW 미발굴</div>
+      <div class="ci"><b>수영복</b> <small>PAID 847만</small> — FW 비시즌. 26SS 폭발 예정</div>
+      <div class="ci"><b>숄더백</b> <small>PAID 475만</small> — 14.6% 건전. 볼륨 확대 여지</div>
+    </div>
+  </div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>중간 (15~25%)</div>
+    <div class="cell ck"><div class="cbadge k">FW 핵심 유지</div>
+      <div class="ci"><b>니트</b> <small>PAID 2.74억·재진행91</small> — FW 1위. 21.5% 집중 구조 위험</div>
+      <div class="ci"><b>가디건</b> <small>PAID 7,600만·재진행44</small> — FW 2위</div>
+      <div class="ci"><b>조끼·베스트</b> <small>PAID 2.3억·재진행15</small> — 레이어드 수요</div>
+      <div class="ci"><b>맨투맨·후드</b> <small>PAID 1.7억·재진행14</small> — 봄 전환 연계</div>
+    </div>
+    <div class="cell cg"><div class="cbadge g">FW 성장 확대</div>
+      <div class="ci"><b>롱 원피스</b> <small>PAID 4.2억·재진행62</small> — FW 5위. 재진행 성공 모델</div>
+      <div class="ci"><b>자켓</b> <small>PAID 4.1억·재진행21</small> — FW 6위. 봄 26SS 기회</div>
+      <div class="ci"><b>롱 스커트</b> <small>PAID 3.9억·재진행35</small> — 16.4% 건전</div>
+      <div class="ci"><b>블라우스</b> <small>PAID 1.1억·재진행22</small> — SS 6,800만 대비 FW 1,075만</div>
+    </div>
+    <div class="cell cf"><div class="cbadge f">FW 취반품율 개선</div>
+      <div class="ci"><b>긴바지</b> <small>PAID 4.7억·재진행56</small> — PAID 4위이나 23.4%</div>
+      <div class="ci"><b>미디 원피스</b> <small>PAID 1.6억·재진행18</small> — 21.7%. 상세 강화</div>
+    </div>
+  </div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>높음 (≥25%)</div>
+    <div class="cell cw"><div class="cbadge w">FW 시즌 조정</div>
+      <div class="ci"><b>패딩·다운</b> <small>PAID 2.3억·재진행3</small> — 26.2%. 비시즌</div>
+      <div class="ci"><b>점퍼</b> <small>PAID 1.4억·재진행16</small> — 22.0% 경계. 재고 소진</div>
+    </div>
+    <div class="cell ck"><div class="cbadge k">FW 고단가 관리</div>
+      <div class="ci"><b>세트 기타</b> <small>PAID 5억·AOV4.7만</small> — AOV 최고. 18.7% 이 셀 예외</div>
+    </div>
+    <div class="cell cf"><div class="cbadge f">FW 긴급 개선</div>
+      <div class="ci"><b>코트</b> <small>32.3%·재진행1</small> — 위험. 26SS 제외 필수</div>
+      <div class="ci"><b>퍼·무스탕</b> <small>35.4%·재진행0</small> — 최고 위험. 상품 재검토</div>
+    </div>
+  </div>
+</div>
+<div class="hr"></div>
+<div class="mat">
+  <div class="mat-title">③ 26SS 2Q 전략 매트릭스</div>
+  <div class="mat-period">2026.04 ~ 06 · 현재 진행 중 · 26SS 3월 취소+반품 16.5% · 시장 트렌드 반영</div>
+  <div class="mat-desc"><b>반영 트렌드:</b> <span class="tp">포엣코어</span> 블라우스·자켓·플리츠스커트 &nbsp;|&nbsp; <span class="tp">볼륨·플로럴</span> 롱 원피스 &nbsp;|&nbsp; <span class="tp up">비비드 컬러</span> 티셔츠·자켓 &nbsp;|&nbsp; <span class="tp up">레이어드</span> 가디건·조끼 &nbsp;|&nbsp; <span class="tp">수영복 5월 폭발</span> 무신사 2배 급등</div>
+  <div class="col-hdrs"><div></div><div class="col-h">AOV 낮음 (≤2.5만)</div><div class="col-h">AOV 중간 (2.5~3.8만)</div><div class="col-h">AOV 높음 (≥3.8만)</div></div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>낮음 목표<br>(≤15%)</div>
+    <div class="cell ck"><div class="cbadge k">2Q 즉시 드라이버</div>
+      <div class="ci"><b>티셔츠</b> <span class="tp up">비비드 컬러</span> — 재진행34+신상 즉시 60개+</div>
+      <div class="ci"><b>스카프</b> <span class="tp">봄 헤어스카프</span> — 취반품율 5.7%. 재진행10 즉시</div>
+      <div class="ci"><b>모자</b> — 봄 야외 자외선 수요. 재진행5 활용</div>
+    </div>
+    <div class="cell cg"><div class="cbadge g">2Q 시즌 확대</div>
+      <div class="ci"><b>수영복</b> <span class="tp">5월 피크 긴급</span> — 5월 2주차 2배 폭등. 샘플 확정 필수</div>
+      <div class="ci"><b>샌들</b> — 취반품율 양호. SS 시즌 확대 적기</div>
+      <div class="ci"><b>숄더백</b> — 14.6% 건전. SS 볼륨 확대 여지</div>
+    </div>
+    <div class="cell cn"><div class="cbadge n">2Q 신규 육성</div>
+      <div class="ci"><b>반바지</b> — 여름 수요 확인. 볼륨 확대 시도</div>
+    </div>
+  </div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>중간 목표<br>(15~20%)</div>
+    <div class="cell ck"><div class="cbadge k">2Q 레이어드 핵심</div>
+      <div class="ci"><b>가디건</b> <span class="tp up">레이어드</span> — 재진행44. 얇은 가디건 비비드 컬러</div>
+      <div class="ci"><b>조끼·베스트</b> <span class="tp up">레이어드</span> — 재진행15 즉시. 블라우스+조끼 세트</div>
+      <div class="ci"><b>니트</b> — 재진행91. 코튼·린넨 봄 전환. 비중 21%→15%</div>
+    </div>
+    <div class="cell cg"><div class="cbadge g">2Q 볼륨 엔진</div>
+      <div class="ci"><b>블라우스</b> <span class="tp">포엣코어 1순위</span> — 리본·러플. 재진행22. 4월 즉시</div>
+      <div class="ci"><b>롱 원피스</b> <span class="tp">플로럴·볼륨</span> — 재진행62. 5월 피크 대비</div>
+      <div class="ci"><b>롱 스커트</b> <span class="tp">포엣코어</span> — 재진행35. 플리츠 수혜</div>
+      <div class="ci"><b>셔츠</b> — 재진행16. 봄 소재 전환. 취반품율 양호</div>
+    </div>
+    <div class="cell cf"><div class="cbadge f">2Q 취반품율 개선</div>
+      <div class="ci"><b>자켓</b> <span class="tp">포엣코어</span> — 22.8%→18% 목표. 린넨·코튼 전환 전제</div>
+      <div class="ci"><b>긴바지</b> — 23.4%. 실측 치수 가이드 강화 후 등록</div>
+      <div class="ci"><b>미디 원피스</b> — 21.7%. 상세·사이즈 가이드 선행</div>
+    </div>
+  </div>
+  <div class="mat-row">
+    <div class="row-lbl">취반품율<br>높음 회피<br>(≥25%)</div>
+    <div class="cell cw"><div class="cbadge w">2Q 비시즌 정리</div>
+      <div class="ci"><b>머플러</b> — 4월까지 소량. 스카프로 유도</div>
+      <div class="ci"><b>패딩·다운</b> — 환절기 소량 재고 소진. 5월 중단</div>
+    </div>
+    <div class="cell cw"><div class="cbadge w">2Q 소량 유지</div>
+      <div class="ci"><b>트레이닝 세트</b> <span class="tp up">편안한 품위</span> — 실용주의 트렌드. 연중 수요</div>
+    </div>
+    <div class="cell cf"><div class="cbadge f">2Q 완전 제외</div>
+      <div class="ci"><b>코트</b> — 32.3%. 26SS 등록 완전 중단</div>
+      <div class="ci"><b>퍼·무스탕</b> — 35.4%. 26SS 완전 제외</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ P2 시즌별 핵심 카테고리 ══ -->
+<div class="pane" id="p2">
+<div class="sc-wrap">
+  <div class="sc-card"><div class="sc-title">25SS 핵심 카테고리</div><div class="sc-sub">2025.03~08 · 판매가×수량 기준 실제값 · 취소+반품 20.5%</div>
+    <div class="sc-item"><div class="sc-num">1</div><div><div class="sc-name">티셔츠</div><div class="sc-meta">PAID 2.19억 · 취반품율 ~11%</div><div class="sc-badge" style="background:var(--green-dim);color:var(--green)">SS 실제 1위 · 여름 볼륨 드라이버</div></div></div>
+    <div class="sc-item"><div class="sc-num">2</div><div><div class="sc-name">세트 기타</div><div class="sc-meta">PAID 1.15억 · AOV 고단가</div><div class="sc-badge" style="background:var(--blue-dim);color:var(--blue)">SS 2위 · 고단가 효자</div></div></div>
+    <div class="sc-item"><div class="sc-num">3</div><div><div class="sc-name">자켓</div><div class="sc-meta">PAID 1.11억 · SS 검증 강자</div><div class="sc-badge" style="background:var(--blue-dim);color:var(--blue)">SS 3위 · FW에서 역감소</div></div></div>
+    <div class="sc-item"><div class="sc-num">4</div><div><div class="sc-name">니트</div><div class="sc-meta">PAID 9,927만 · rpls기준 상이</div><div class="sc-badge" style="background:var(--blue-dim);color:var(--blue)">SS 4위 · 레이어드 연중 수요</div></div></div>
+    <div class="sc-item"><div class="sc-num">5</div><div><div class="sc-name">점퍼</div><div class="sc-meta">PAID 8,673만 · 아우터 수요</div><div class="sc-badge" style="background:var(--amber-dim);color:var(--amber)">SS 5위 · 시즌 조정</div></div></div>
+    <div class="sc-item"><div class="sc-num">6</div><div><div class="sc-name">미디 원피스</div><div class="sc-meta">PAID 7,000만 · SS 주요</div><div class="sc-badge" style="background:var(--green-dim);color:var(--green)">SS 6위 · 취반품율 개선 필요</div></div></div>
+  </div>
+  <div class="sc-card"><div class="sc-title">25FW 핵심 카테고리</div><div class="sc-sub">2025.09~02 · PAID 기준 · 취소+반품 16.0%</div>
+    <div class="sc-item"><div class="sc-num">1</div><div><div class="sc-name">니트</div><div class="sc-meta">PAID 2.74억 · 재진행 91개</div><div class="sc-badge" style="background:var(--blue-dim);color:var(--blue)">FW 압도적 1위</div></div></div>
+    <div class="sc-item"><div class="sc-num">2</div><div><div class="sc-name">가디건</div><div class="sc-meta">PAID 7,600만 · 재진행 44개</div><div class="sc-badge" style="background:var(--blue-dim);color:var(--blue)">FW 2위 · 레이어드 수혜</div></div></div>
+    <div class="sc-item"><div class="sc-num">3</div><div><div class="sc-name">세트 기타</div><div class="sc-meta">PAID 5억 · AOV 4.7만</div><div class="sc-badge" style="background:var(--blue-dim);color:var(--blue)">고단가 효자</div></div></div>
+    <div class="sc-item"><div class="sc-num">4</div><div><div class="sc-name">긴바지</div><div class="sc-meta">PAID 4.7억 · 취반품율 23.4%</div><div class="sc-badge" style="background:var(--red-dim);color:var(--red)">볼륨 but 개선 필요</div></div></div>
+    <div class="sc-item"><div class="sc-num">5</div><div><div class="sc-name">롱 원피스</div><div class="sc-meta">PAID 4.2억 · 재진행 62개</div><div class="sc-badge" style="background:var(--green-dim);color:var(--green)">재진행 성공 모델</div></div></div>
+    <div class="sc-item"><div class="sc-num">6</div><div><div class="sc-name">자켓</div><div class="sc-meta">PAID 4.1억 · 재진행 21개</div><div class="sc-badge" style="background:var(--green-dim);color:var(--green)">SS 3,800만→FW 4.1억</div></div></div>
+  </div>
+  <div class="sc-card"><div class="sc-title">26SS 2Q 목표 핵심</div><div class="sc-sub">2026.04~06 · 트렌드 반영 목표</div>
+    <div class="sc-item"><div class="sc-num">1</div><div><div class="sc-name">롱 원피스</div><div class="sc-meta">목표 1.5억+ · 재진행62</div><div class="sc-badge" style="background:var(--red-dim);color:var(--red)">플로럴·볼륨 트렌드</div></div></div>
+    <div class="sc-item"><div class="sc-num">2</div><div><div class="sc-name">티셔츠</div><div class="sc-meta">목표 1억+ · 신상60개+</div><div class="sc-badge" style="background:var(--red-dim);color:var(--red)">비비드 컬러</div></div></div>
+    <div class="sc-item"><div class="sc-num">3</div><div><div class="sc-name">블라우스</div><div class="sc-meta">목표 5천만+ · 재진행22</div><div class="sc-badge" style="background:var(--red-dim);color:var(--red)">포엣코어 1순위</div></div></div>
+    <div class="sc-item"><div class="sc-num">4</div><div><div class="sc-name">자켓</div><div class="sc-meta">목표 4천만+ · 린넨·코튼</div><div class="sc-badge" style="background:var(--red-dim);color:var(--red)">포엣코어 블레이저</div></div></div>
+    <div class="sc-item"><div class="sc-num">5</div><div><div class="sc-name">수영복</div><div class="sc-meta">목표 3천만+ · 5월 피크</div><div class="sc-badge" style="background:var(--red-dim);color:var(--red)">5월 2주차 2배 폭등</div></div></div>
+    <div class="sc-item"><div class="sc-num">6</div><div><div class="sc-name">롱 스커트</div><div class="sc-meta">목표 3천만+ · 재진행35</div><div class="sc-badge" style="background:var(--red-dim);color:var(--red)">포엣코어 플리츠</div></div></div>
+  </div>
+</div>
+<div class="tbl-wrap"><table>
+  <thead><tr><th style="text-align:left">카테고리</th><th>25SS PAID</th><th>25SS 순위</th><th>25FW PAID</th><th>SS→FW 변화</th><th>26SS 3월</th><th>26SS 2Q 전략</th></tr></thead>
+  <tbody>
+    <tr><td>티셔츠</td><td class="rl">2.19억</td><td class="rl">1위</td><td>3,442만</td><td class="rh">-84%</td><td>1,707만</td><td><span class="tag g">비비드 컬러 대량</span></td></tr>
+    <tr><td>세트 기타</td><td class="rl">1.15억</td><td class="rl">2위</td><td>4,961만</td><td class="rh">-57%</td><td>1,302만</td><td><span class="tag c">고단가 물량 확대</span></td></tr>
+    <tr><td>자켓</td><td class="rl">1.11억</td><td class="rl">3위</td><td>4,063만</td><td class="rh">-63%</td><td>2,178만</td><td><span class="tag g">SS 검증 카테고리 · 볼륨 확대</span></td></tr>
+    <tr><td>니트</td><td>9,927만</td><td>4위</td><td>2.74억</td><td class="rl">+176%</td><td>4,581만</td><td><span class="tag c">레이어드 전환 · 비중 축소</span></td></tr>
+    <tr><td>가디건</td><td>6,393만</td><td>8위</td><td>7,597만</td><td class="rl">+19%</td><td>1,658만</td><td><span class="tag c">레이어드 핵심</span></td></tr>
+    <tr><td>롱 원피스</td><td>5,374만</td><td>10위</td><td>4,248만</td><td class="rm">-21%</td><td>857만</td><td><span class="tag g">플로럴 볼륨 확대</span></td></tr>
+    <tr><td>블라우스</td><td>4,651만</td><td>11위</td><td>1,075만</td><td class="rh">-77%</td><td>190만</td><td><span class="tag g">포엣코어 신상 추가 · 노출 강화</span></td></tr>
+    <tr><td>긴바지</td><td>6,253만</td><td>7위</td><td>4,652만</td><td class="rh">-26%</td><td>1,607만</td><td><span class="tag f">취반품율 개선 선행</span></td></tr>
+    <tr><td>롱 스커트</td><td>2,419만</td><td>14위</td><td>3,900만</td><td class="rl">+61%</td><td>421만</td><td><span class="tag g">포엣코어 플리츠</span></td></tr>
+    <tr><td>수영복</td><td>1,492만</td><td>16위</td><td>847만</td><td class="rh">-43%</td><td>393만</td><td><span class="tag n">5월 피크 긴급 확대</span></td></tr>
+    <tr><td>스카프</td><td>1,107만</td><td>17위</td><td>663만</td><td class="rh">-40%</td><td>798만</td><td><span class="tag g">3월 예상외 강세 · 적극 확대</span></td></tr>
+    <tr><td>코트·퍼무스탕</td><td>-</td><td>-</td><td>1.58억</td><td>-</td><td>103만</td><td><span class="tag f">26SS 완전 제외</span></td></tr>
+  </tbody>
+</table></div>
+</div>
+
+<!-- ══ P3 시즌별 부족 카테고리 ══ -->
+<div class="pane" id="p3">
+
+<!-- 판별 이유 설명 -->
+<div class="sec">부족 카테고리 판별 기준 — 실제 데이터 기반 정정 반영</div>
+<div class="reason-grid">
+  <div class="reason-card">
+    <div class="rc-badge ss">판별 기준 ① — SS 볼륨 부족</div>
+    <div class="rc-title">SS 수요 명확하나 실적 저조</div>
+    <div class="rc-formula">
+      <b>판별 공식:</b> SS 시즌에 수요가 명백히 존재하는데, 실제 PAID가 잠재 수요 대비 현저히 낮은 경우
+      <span class="formula-text">시즌 특화 수요 확인 but 등록 물량·매출 저조 → SS 볼륨 부족</span>
+    </div>
+    <div class="rc-item"><b>수영복</b> — SS 1,492만이지만 5월 2주차 2배 폭등 수요 대비 물량 극히 저조. 26SS 3월 393만(17개) 확인 — 볼륨 확대 필수</div>
+    <div class="rc-item"><b>롱 원피스</b> — SS 5,374만(10위). SS 봄·여름 핵심임에도 순위 낮음. FW에서도 4,248만으로 감소 — 양 시즌 모두 확대 여지</div>
+    <div class="rc-item"><b>스카프</b> — SS 1,107만. 26SS 3월 798만으로 예상외 강세 확인 — 오히려 적극 확대 시그널</div>
+    <div class="rc-note">핵심: 수요는 있는데 공급(등록·물량)이 따라가지 못한 케이스</div>
+  </div>
+  <div class="reason-card">
+    <div class="rc-badge fw">판별 기준 ② — FW 급감</div>
+    <div class="rc-title">SS 강자가 FW에서 기획 부재로 급감</div>
+    <div class="rc-formula">
+      <b>판별 공식:</b> SS에서 강세였던 카테고리가 FW에서 50%+ 급감한 경우 → 기획 부재 or 재진행 미활용
+      <span class="formula-text">SS PAID 대비 FW PAID 감소율 50%+ → FW 부족 판별</span>
+    </div>
+    <div class="rc-item"><b>티셔츠</b> — SS 2.19억(1위) → FW 3,442만 (-84%). SS 압도적 1위인데 FW에서 재진행 34개 미활용</div>
+    <div class="rc-item"><b>자켓</b> — SS 1.11억(3위) → FW 4,063만 (-63%). SS 강자였으나 FW 기획이 따라가지 못함. 26SS SS 복귀 집중</div>
+    <div class="rc-item"><b>블라우스</b> — SS 4,651만 → FW 1,075만 (-77%). 포엣코어 기회 놓침. 26SS 3월 29개 등록됐으나 PAID 190만 극소</div>
+    <div class="rc-note">핵심: SS 검증 카테고리인데 FW에서 기획·재진행이 따라가지 못한 케이스</div>
+  </div>
+  <div class="reason-card">
+    <div class="rc-badge now">판별 기준 ③ — 26SS 즉시 보강</div>
+    <div class="rc-title">3월 실적 저조 + 4~6월 수요 확실</div>
+    <div class="rc-formula">
+      <b>판별 공식:</b> 26SS 3월 실제 데이터에서 매출 저조이나 4~6월 수요가 명백한 카테고리
+      <span class="formula-text">3월 PAID 극소 or 미등록 + 4~6월 수요 피크 확실 → 즉시 보강</span>
+    </div>
+    <div class="rc-item"><b>블라우스</b> — 3월 29개 등록됐으나 PAID 190만 극소. "미등록"이 아닌 "노출·매출 미흡" 상태. 포엣코어 신상 추가+노출 강화 필요</div>
+    <div class="rc-item"><b>수영복</b> — 3월 17개·393만으로 시작했으나 5월 2주차 피크까지 4주. 추가 샘플 확정+대량 등록 시급</div>
+    <div class="rc-item"><b>스카프</b> — 3월 798만 예상외 강세. 기존 전략에서 소극적으로 다뤘으나 롱 스커트(421만)보다 높음 — 4월 적극 확대 권장</div>
+    <div class="rc-note">핵심: 실제 3월 데이터로 검증된 즉시 실행 케이스</div>
+  </div>
+</div>
+
+<!-- 판별 근거 데이터 테이블 — 실제값 반영 -->
+<div class="reason-table">
+  <div class="rt-title">부족 카테고리 판별 근거 데이터 — 실제 데이터 기반 정정 완료</div>
+  <div class="rt-sub">판매가×수량 기준 실제값 · 크로스 체크 정정 3건 반영</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr>
+      <th style="text-align:left">카테고리</th>
+      <th>25SS PAID (실제)</th><th>25FW PAID</th><th>SS→FW 변화율</th>
+      <th>26SS 3월</th><th>판별 유형</th><th>판별 이유</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><b>티셔츠</b></td><td class="rl">2.19억 (SS 1위)</td><td>3,442만</td><td class="rh">-84%</td><td>1,707만</td><td><span class="tag f">FW 급감</span></td><td style="text-align:left;white-space:normal;font-size:10px">SS 압도적 1위인데 FW 84% 급감. 재진행 34개 미활용</td></tr>
+      <tr><td><b>자켓</b></td><td class="rl">1.11억 (SS 3위)</td><td>4,063만</td><td class="rh">-63%</td><td>2,178만</td><td><span class="tag f">FW 급감</span></td><td style="text-align:left;white-space:normal;font-size:10px">SS 3위 강자 → FW 63% 급감. 26SS SS 강자 지위 유지 필요</td></tr>
+      <tr><td><b>블라우스</b></td><td>4,651만</td><td>1,075만</td><td class="rh">-77%</td><td>190만</td><td><span class="tag f">FW 급감+26SS 미흡</span></td><td style="text-align:left;white-space:normal;font-size:10px">FW 77% 급감. 26SS 3월 29개 등록이나 PAID 190만 극소</td></tr>
+      <tr><td><b>수영복</b></td><td>1,492만</td><td>847만</td><td class="rh">-43%</td><td>393만</td><td><span class="tag c">SS 볼륨 부족</span></td><td style="text-align:left;white-space:normal;font-size:10px">5월 피크 수요 명확. 등록 17개+393만 — 볼륨 절대 부족</td></tr>
+      <tr><td><b>스카프</b></td><td>1,107만</td><td>663만</td><td class="rh">-40%</td><td>798만</td><td><span class="tag c">SS 확대 기회</span></td><td style="text-align:left;white-space:normal;font-size:10px">26SS 3월 798만 예상외 강세. 롱 스커트(421만) 상회. 적극 확대 시그널</td></tr>
+      <tr><td><b>롱 원피스</b></td><td>5,374만</td><td>4,248만</td><td class="rh">-21%</td><td>857만</td><td><span class="tag c">SS 볼륨 확대 여지</span></td><td style="text-align:left;white-space:normal;font-size:10px">SS 10위. 봄·여름 핵심임에도 순위 낮음. 5월 플로럴 볼륨 집중</td></tr>
+      <tr><td><b>조끼·베스트</b></td><td>1,106만(추정)</td><td>2,275만</td><td class="rl">+106%</td><td>313만</td><td><span class="tag f">레이어드 대응 부족</span></td><td style="text-align:left;white-space:normal;font-size:10px">FW 2,275만이나 재진행 15개 수준. 레이어드 트렌드 적극 미활용</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- 부족 카테고리 카드 — 정정 반영 -->
+<div class="sh-wrap">
+  <div class="sh-card" style="border-top:2px solid var(--red)">
+    <div class="sh-title">25SS 볼륨 부족 카테고리</div>
+    <div class="sh-sub">판매가×수량 실제값 기준</div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--red)"></div><div><div class="sh-name">수영복 — 1,492만 · 잠재력 대비 저조</div><div class="sh-note">SS 1,492만(16위). 5월 2주차 2배 폭등 수요 대비 물량 극히 저조. 26SS 3월 17개·393만 — 절대 볼륨 부족. 30개+ 목표</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--red)"></div><div><div class="sh-name">롱 원피스 — 5,374만(10위) · SS 확대 여지</div><div class="sh-note">봄·여름 핵심 카테고리임에도 SS 10위에 그침. FW 4,248만으로도 감소. 5월 플로럴 볼륨 집중으로 반전 필요</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--amber)"></div><div><div class="sh-name">스카프 — 26SS 3월 798만 예상외 강세</div><div class="sh-note">SS 1,107만으로 소극적으로 다뤘으나 26SS 3월 798만(롱 스커트 421만 상회). 4월 헤어스카프·패션스카프 적극 확대 권장</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--amber)"></div><div><div class="sh-name">반바지 — 2,648만 · 여름 특화 but 볼륨 부족</div><div class="sh-note">여름 수요 명확하나 볼륨 부족. 취반품율 개선 병행 필요</div></div></div>
+  </div>
+  <div class="sh-card" style="border-top:2px solid var(--amber)">
+    <div class="sh-title">FW 급감 카테고리 (SS 강자 → FW 역감소)</div>
+    <div class="sh-sub">실제 데이터 정정 반영 — SS 수치 재확인</div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--red)"></div><div><div class="sh-name">티셔츠 — SS 2.19억(1위) → FW 3,442만 (-84%)</div><div class="sh-note">SS 압도적 1위임에도 FW 84% 급감. 재진행 34개 미활용. 26SS 비비드 컬러 60개+ 즉시 투입</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--red)"></div><div><div class="sh-name">자켓 — SS 1.11억(3위) → FW 4,063만 (-63%)</div><div class="sh-note">SS 3위 강자 → FW 63% 역감소. "기회 미포착"이 아닌 "SS 검증 카테고리의 FW 급감". 26SS SS 복귀 집중 필요</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--red)"></div><div><div class="sh-name">블라우스 — SS 4,651만 → FW 1,075만 (-77%)</div><div class="sh-note">FW 77% 급감 후 26SS 3월 190만 극소. "미등록"이 아닌 "노출·매출 미흡" 상태. 포엣코어 신상 추가+노출 강화 필요</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--amber)"></div><div><div class="sh-name">조끼·베스트 — 레이어드 트렌드 대응 부족</div><div class="sh-note">FW 2,275만이나 재진행 15개 수준. 레이어드 트렌드 부상 시점 적극적 등록 부족</div></div></div>
+  </div>
+  <div class="sh-card" style="border-top:2px solid var(--blue)">
+    <div class="sh-title">26SS 즉시 보강 필요</div>
+    <div class="sh-sub">3월 실제 데이터 기반 · 즉시 실행 항목</div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--red)"></div><div><div class="sh-name">블라우스 — 29개 등록이나 PAID 190만 극소</div><div class="sh-note">포엣코어 핵심. 지금(4월)이 트렌드 피크. 포엣코어 신상 추가 + 노출 강화로 4~5월 매출 견인 필요</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--red)"></div><div><div class="sh-name">수영복 — 17개·393만 · 피크까지 4주</div><div class="sh-note">등록 시작됐으나 5월 2주차 피크까지 4주. 추가 샘플 확정+모노키니·커버업 세트 30개+ 목표</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--amber)"></div><div><div class="sh-name">스카프 — 3월 798만 강세 · 4월 적극 확대</div><div class="sh-note">예상 초과 실적. 롱 스커트(421만) 상회. 헤어스카프·패션스카프 4월 물량 추가 적극 검토</div></div></div>
+    <div class="sh-item"><div class="sh-dot" style="background:var(--amber)"></div><div><div class="sh-name">조끼·베스트 — 레이어드 즉시 재노출</div><div class="sh-note">레이어드 트렌드 핵심 아이템. 재진행 15개 즉시 재노출. 블라우스+조끼 세트로 ARPPU 4만원+ 달성</div></div></div>
+  </div>
+</div>
+</div>
+
+<!-- ══ P4 2Q 우선순위 ══ -->
+<div class="pane" id="p4">
+<div class="sec">2026 SS 시장 트렌드 — 퀸잇 4050 고객 관점 필터링</div>
+
+<!-- 트렌드 해석 노트 -->
+<div style="background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:var(--r-md);padding:10px 14px;margin-bottom:12px;font-size:10px;color:var(--t2);line-height:1.7">
+  <b style="color:var(--blue)">트렌드 해석 원칙:</b> 시장 트렌드는 2030 기준으로 발신됩니다. 퀸잇 50대 고객에게는 <b style="color:var(--t1)">트렌드 키워드가 아니라 아이템 언어</b>로 번역해야 합니다.
+  &nbsp;|&nbsp; "포엣코어"는 고객이 검색하지 않는 단어입니다. 고객이 실제로 찾는 건 <b style="color:var(--t1)">"우아한 블라우스", "여성스러운 자켓", "클래식 원피스"</b>입니다.
+  &nbsp;|&nbsp; 리본·러플·플리츠에 대한 수요는 50대에서 원래 높았습니다. 2026 포엣코어 트렌드는 그 방향과 우연히 일치하는 것입니다 — <b style="color:var(--t1)">트렌드에 끌려가는 게 아니라, 우리 고객이 원래 원했던 것을 이번 시즌에 더 확신있게 밀어도 되는 근거</b>로 활용하세요.
+</div>
+
+<div class="trend-grid">
+  <div class="tr">
+    <div class="tr-badge">HOT 지금</div>
+    <div class="tr-title">클래식 로맨틱 <span style="font-size:9px;color:var(--t3);font-weight:400">(업계 키워드: 포엣코어)</span></div>
+    <div class="tr-body">리본·러플·플리츠·레이스 디테일 강세. <b>50대에서 원래 높은 수요</b> — 이번 시즌 트렌드가 그 방향과 일치. 고객 언어: "우아한 블라우스", "여성스러운 자켓"</div>
+    <div class="tr-src">Design+ · 무신사 2026.01 · 단, 주 소비층은 2030 — 50대는 아이템으로 번역 필요</div>
+  </div>
+  <div class="tr">
+    <div class="tr-badge">HOT 지금</div>
+    <div class="tr-title">우아한 여성성 — 볼륨 & 플로럴</div>
+    <div class="tr-body">과도한 볼륨은 50대 기피. <b>적당한 A라인·허리 강조 플로럴 롱 원피스</b>가 정답. 고객 언어: "예쁜 꽃무늬 원피스", "허리 잡히는 봄 원피스"</div>
+    <div class="tr-src">ELLE Korea 2026.01 · 극단적 볼륨 실루엣은 50대 고객에 부적합</div>
+  </div>
+  <div class="tr">
+    <div class="tr-badge up">RISING</div>
+    <div class="tr-title">컬러 — 50대 필터 적용</div>
+    <div class="tr-body">시장 트렌드(레드·옐로 원색)를 그대로 적용하면 반품 급증. <b>50대 실구매 컬러: 네이비·베이지·카키·와인·버건디</b>에 포인트 1색 정도가 현실적</div>
+    <div class="tr-src">Design+ · W Korea 2026.02 · 원색 비비드는 티셔츠 한정 소량 테스트 권장</div>
+  </div>
+  <div class="tr">
+    <div class="tr-badge up">RISING</div>
+    <div class="tr-title">레이어드 — 편안한 품위와 결합</div>
+    <div class="tr-body">조끼·베스트·가디건 레이어드 수요 급증. <b>50대에게는 "체형 커버 + 세련됨"이라는 두 마리 토끼</b>를 동시에 잡는 포지셔닝. 블라우스+조끼 세트 기획의 근거</div>
+    <div class="tr-src">삼성물산 · Daum</div>
+  </div>
+  <div class="tr">
+    <div class="tr-badge">HOT 5월</div>
+    <div class="tr-title">수영복 5월 폭발</div>
+    <div class="tr-body">5월 2주차 <b>전주 대비 2배+ 급등</b>. 50대에게는 모노키니(체형 커버형) + 커버업 세트. 과감 컷아웃·스트링 비키니는 미적합</div>
+    <div class="tr-src">무신사 뉴스룸 · 퀸잇 50대 = 모노키니+파레오 세트로 번역</div>
+  </div>
+  <div class="tr">
+    <div class="tr-badge bl">STABLE</div>
+    <div class="tr-title">편안한 품위 — 50대 핵심 언어</div>
+    <div class="tr-body">"불편한 멋보다 편안함"이 50대의 핵심 구매 기준. <b>클래식 로맨틱 디테일도 편안한 소재·핏이 전제</b>돼야 반품 없음. 린넨·코튼 소재 선택의 근거</div>
+    <div class="tr-src">브라보마이라이프 2026.03</div>
+  </div>
+</div>
+<div class="sec">우선순위별 실행 전략</div>
+<div class="pri"><div class="pri-top"><div class="pnum p1">1</div><div class="pri-info"><div class="pri-title">블라우스·자켓·롱 스커트 — 클래식 로맨틱 즉시 확대</div><div class="pri-cats">블라우스 / 자켓 / 롱 스커트</div></div><div class="pri-tgt">4월 즉시</div></div><div class="pri-body">리본·러플·플리츠에 대한 50대 수요는 원래 높습니다. 2026 시즌 트렌드가 그 방향과 일치하므로 <b>이번 시즌은 더 확신있게 밀어도 됩니다.</b> 블라우스(26SS 3월 190만 · 노출 미흡) 포엣코어 신상 추가 + 노출 강화, 자켓(3월 이미 2위 2,178만) SS 검증 확인 — 린넨·코튼 소재 유지. 상품명·상세 페이지에 <b>"포엣코어"가 아닌 "우아한 블라우스", "여성스러운 자켓"</b> 고객 언어로 소통. 자켓 취반품율 22.8%→18% 소재 전환이 전제.</div></div>
+<div class="pri"><div class="pri-top"><div class="pnum p2">2</div><div class="pri-info"><div class="pri-title">롱 원피스·티셔츠 — 우아한 여성성 + SS 볼륨 가속</div><div class="pri-cats">롱 원피스 / 티셔츠</div></div><div class="pri-tgt">4~5월 집중</div></div><div class="pri-body">롱 원피스(26SS 3월 857만 시작)는 <b>과도한 볼륨보다 "허리 잡히는 플로럴" 실루엣</b>이 50대 핵심. A라인·허리 셔링 플로럴 롱 원피스로 기획. 고객 언어: "예쁜 꽃무늬 원피스". 티셔츠(26SS 3월 1,707만 · 98개 상품 대비 매출 저조)는 <b>비비드 원색 그대로 적용 가능한 유일한 카테고리</b> — 50대도 티셔츠는 컬러 실험에 덜 부담. SS 실제 1위(2.19억) 검증 카테고리로 FW 84% 급감 복귀 목표.</div></div>
+<div class="pri"><div class="pri-top"><div class="pnum p3">3</div><div class="pri-info"><div class="pri-title">수영복 단독 + 커버업 세트 — 신규 SS 카테고리 긴급 확대</div><div class="pri-cats">수영복 단독(모노키니) + 커버업 세트 4종 / 스카프 / 반바지 / 샌들</div></div><div class="pri-tgt">5월 피크 대비 즉시</div></div><div class="pri-body">5월 2주차부터 <b>2배 급등</b>. 수영복 샘플 지금 확정 필수. 50대 수영복은 <b>"체형 커버 + 이동 중 품위" 두 가지를 동시에 해결</b>하는 것이 핵심. 모노키니(셔링·하이웨스트형) + 커버업 세트 4종(파레오·쉬폰 원피스·래쉬가드·3pcs 풀세트) 30개+ 목표. AOV 47,480원(FW 전 카테고리 최고)이며 세트로 55,000~90,000원 달성 가능. 26SS 3월 이미 17개·393만으로 시작 확인.</div></div>
+<div class="pri"><div class="pri-top"><div class="pnum p4">4</div><div class="pri-info"><div class="pri-title">니트·가디건·조끼베스트 — "체형 커버 + 세련됨" 레이어드 세트</div><div class="pri-cats">봄 니트 / 얇은 가디건 / 조끼·베스트</div></div><div class="pri-tgt">목표 비중 15%</div></div><div class="pri-body">50대에게 레이어드는 트렌드 이전에 <b>체형 커버 수단</b>입니다. 클래식 로맨틱 블라우스 위에 조끼·베스트를 걸치는 스타일링이 "우아하면서 배가 안 보이는 룩"으로 소구됩니다. 블라우스+조끼 세트 기획으로 <b>ARPPU 4만원+ 유도</b>. 니트(재진행91)는 코튼·린넨 봄 전환으로 비중 32%(26SS 3월)→15% 축소 목표.</div></div>
+<div class="pri"><div class="pri-top"><div class="pnum p5">5</div><div class="pri-info"><div class="pri-title">취반품율 구조 개선 + 코트·퍼무스탕 즉시 제외</div><div class="pri-cats">코트·퍼무스탕 → 제외 / 긴바지·미디원피스 → 개선</div></div><div class="pri-tgt">취소6.9%+반품9.1% 개선</div></div><div class="pri-body">코트(32.3%)·퍼무스탕(35.4%) <b>26SS 즉시 등록 중단</b>. 기획 리소스를 클래식 로맨틱 블라우스·자켓으로 전환. 취소(6.9%)와 반품(9.1%)은 원인이 다름 — 취소는 재고·가격, 반품은 핏·사이즈. 특히 <b>클래식 로맨틱 아이템(블라우스·러플)은 소재 비침·러플 볼륨 기대치 차이</b>가 반품 주원인 — 상세 페이지 실측+소재 정보가 선행되어야 노출을 늘려도 안전합니다.</div></div>
+
+<div class="sec" style="margin-top:24px">4·5·6월 월별 실행 플랜</div>
+<div class="mp-grid">
+  <div class="mp m4"><div class="mp-title">4월 — 즉시 실행</div>
+    <div class="mp-item"><b>블라우스</b> 리본·러플·피터팬칼라 신상 추가 + 노출 강화</div>
+    <div class="mp-item"><b>자켓</b> 린넨·코튼 클래식 블레이저 즉시 30개+</div>
+    <div class="mp-item"><b>티셔츠</b> 비비드 원색 대량 40개+ (50대 컬러 필터 적용)</div>
+    <div class="mp-item"><b>롱 스커트</b> 플리츠·플로럴 재진행35 재노출</div>
+    <div class="mp-item">수영복+커버업 세트 S1(파레오) 3개 선등록</div>
+    <div class="mp-item">코트·퍼무스탕 등록 완전 중단</div>
+    <div class="mp-item" style="font-weight:600;color:var(--red);margin-top:8px">목표 PAID: 1.5억+</div>
+  </div>
+  <div class="mp m5"><div class="mp-title">5월 — 피크 시즌 공략</div>
+    <div class="mp-item"><b>수영복 단독</b> 모노키니 집중 등록 16개+</div>
+    <div class="mp-item"><b>커버업 세트 S2·S3</b> 6개 추가 등록</div>
+    <div class="mp-item"><b>3pcs 풀세트 S4</b> 1개 (5월 중순)</div>
+    <div class="mp-item"><b>롱 원피스</b> 허리 셔링 플로럴 A라인 15개+</div>
+    <div class="mp-item">블라우스+조끼 세트 스타일링 콘텐츠 강화</div>
+    <div class="mp-item">반바지·샌들 여름 아이템 확대</div>
+    <div class="mp-item" style="font-weight:600;color:var(--green);margin-top:8px">목표 PAID: 1.9억+</div>
+  </div>
+  <div class="mp m6"><div class="mp-title">6월 — 여름 전환 완성</div>
+    <div class="mp-item"><b>수영복</b> 추가 컬러 2개+ 등록</div>
+    <div class="mp-item"><b>티셔츠·반바지</b> 여름 컬러 추가</div>
+    <div class="mp-item">스카프·모자 자외선 포지셔닝</div>
+    <div class="mp-item">니트 크로셰·메시 8개 이내만</div>
+    <div class="mp-item">26FW 클래식 로맨틱 라인 기획 착수</div>
+    <div class="mp-item" style="font-weight:600;color:var(--blue);margin-top:8px">목표 PAID: 1.7억+</div>
+  </div>
+</div>
+
+<div class="sec">블라우스 상품 기획 — 클래식 로맨틱 · 25개+ 목표 · 4월 즉시</div>
+<div style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:var(--r-sm);padding:8px 12px;margin-bottom:12px;font-size:10px;color:var(--t2);line-height:1.6">
+  <b style="color:var(--amber)">상품명·상세 페이지 언어 가이드:</b> 내부 기획은 "포엣코어"로 트렌드 방향을 잡되, 상품명과 고객 접점에서는 <b style="color:var(--t1)">"우아한", "여성스러운", "클래식", "단정한"</b> 키워드 사용 권장. 50대 고객은 "포엣코어"를 검색하지 않습니다.
+</div>
+<div class="plan-grid">
+  <div class="plan-card">
+    <div class="pc-top"><div class="pc-icon" style="background:var(--blue-dim)">👗</div><div><div class="pc-title">A. 클래식 로맨틱 블라우스</div><div class="pc-sub">리본·러플·피터팬칼라 · 4월 즉시</div></div></div>
+    <div class="pc-kpi"><div class="pk"><div class="pkl">목표 등록</div><div class="pkv" style="color:var(--red)">15개</div></div><div class="pk"><div class="pkl">목표 AOV</div><div class="pkv" style="color:var(--blue)">25,000원+</div></div><div class="pk"><div class="pkl">시기</div><div class="pkv" style="color:var(--red)">4월 즉시</div></div></div>
+    <div class="pitem"><div class="pinum">1</div><div><div class="piname">넥라인 리본 타이 블라우스</div><div class="pidesc">넥 리본 묶임. 피에로 칼라 스타일. 얼굴형 커버 효과</div><div class="pitags"><span class="ptag pt-mat">코튼 혼방</span><span class="ptag pt-col">아이보리·화이트</span><span class="ptag pt-hot">즉시 등록</span></div></div></div>
+    <div class="pitem"><div class="pinum">2</div><div><div class="piname">프릴·러플 소매 블라우스</div><div class="pidesc">소매 끝단 러플 디테일. 클래식 낭만 무드. 7부~롱 소매 권장</div><div class="pitags"><span class="ptag pt-mat">폴리에스터 혼방</span><span class="ptag pt-col">블랙·네이비·버건디</span></div></div></div>
+    <div class="pitem"><div class="pinum">3</div><div><div class="piname">피터팬 칼라 블라우스</div><div class="pidesc">둥근 칼라. 클래식 레트로 포엣코어. 조끼+세트 레이어드 가능</div><div class="pitags"><span class="ptag pt-col">화이트·연핑크</span><span class="ptag pt-key">레이어드 세트</span></div></div></div>
+  </div>
+  <div class="plan-card">
+    <div class="pc-top"><div class="pc-icon" style="background:var(--green-dim)">✨</div><div><div class="pc-title">B. 우아한 여성성 블라우스</div><div class="pc-sub">드레이프·플로럴 · 편안한 품위 · 4~5월</div></div></div>
+    <div class="pc-kpi"><div class="pk"><div class="pkl">목표 등록</div><div class="pkv" style="color:var(--blue)">10개</div></div><div class="pk"><div class="pkl">목표 AOV</div><div class="pkv" style="color:var(--blue)">27,000원+</div></div><div class="pk"><div class="pkl">시기</div><div class="pkv" style="color:var(--amber)">4~5월</div></div></div>
+    <div class="pitem"><div class="pinum">4</div><div><div class="piname">퍼프·버블 소매 블라우스</div><div class="pidesc">어깨~소매 볼륨. 볼륨 트렌드+포엣코어 낭만 결합</div><div class="pitags"><span class="ptag pt-mat">린넨 혼방</span><span class="ptag pt-col">아이보리·세이지그린</span><span class="ptag pt-hot">볼륨 트렌드</span></div></div></div>
+    <div class="pitem"><div class="pinum">5</div><div><div class="piname">오버사이즈 드레이프 블라우스</div><div class="pidesc">어깨에서 흘러내리는 드레이프. 편안한 품위 트렌드 조화</div><div class="pitags"><span class="ptag pt-mat">레이온·비스코스</span><span class="ptag pt-col">베이지·카키·라일락</span></div></div></div>
+    <div class="pitem"><div class="pinum">6</div><div><div class="piname">플로럴 프린트 블라우스</div><div class="pidesc">플로럴 볼륨 트렌드 직결. 잔꽃~중간 패턴. 롱 스커트 세트 코디</div><div class="pitags"><span class="ptag pt-col">비비드 컬러 베이스</span><span class="ptag pt-hot">플로럴 트렌드</span></div></div></div>
+  </div>
+  <div class="plan-card">
+    <div class="pc-top"><div class="pc-icon" style="background:var(--amber-dim)">📋</div><div><div class="pc-title">블라우스 취반품율 개선</div><div class="pc-sub">19%→15% 목표</div></div></div>
+    <div class="pc-kpi"><div class="pk"><div class="pkl">현재</div><div class="pkv" style="color:var(--red)">19.0%</div></div><div class="pk"><div class="pkl">목표</div><div class="pkv" style="color:var(--green)">≤15%</div></div><div class="pk"><div class="pkl">ARPPU</div><div class="pkv" style="color:var(--blue)">4만원+</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">실측 사이즈 4개 필수</div><div class="pidesc">총장·어깨·가슴·소매길이. 러플 부분 별도 실측 표기</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">체형별 착용컷 3컷+</div><div class="pidesc">M·L·XL 사이즈별 비교. 40~50대 체형 직접 보여주기</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">비침 여부 명시</div><div class="pidesc">"비치지 않음/약간 비침/이너 필요" 3단계 표기 필수</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">블라우스+조끼 세트 기획</div><div class="pidesc">레이어드 세트로 AOV 35,000원+, ARPPU 4만원+ 달성</div></div></div>
+  </div>
+</div>
+
+<div class="sec">수영복 단독 + 커버업 세트 기획 — 30개+ 목표 · 4월 내 등록 완료</div>
+<div class="plan-grid">
+  <div class="plan-card">
+    <div class="pc-top"><div class="pc-icon" style="background:var(--red-dim)">🩱</div><div><div class="pc-title">A. 체형커버 모노키니 (단독)</div><div class="pc-sub">퀸잇 4050 핵심 니즈 · 4월 즉시</div></div></div>
+    <div class="pc-kpi"><div class="pk"><div class="pkl">목표 등록</div><div class="pkv" style="color:var(--red)">12개</div></div><div class="pk"><div class="pkl">목표 AOV</div><div class="pkv" style="color:var(--blue)">48,000원+</div></div><div class="pk"><div class="pkl">시기</div><div class="pkv" style="color:var(--red)">4월 즉시</div></div></div>
+    <div class="pitem"><div class="pinum">1</div><div><div class="piname">셔링 하이웨스트 모노키니</div><div class="pidesc">배 부분 셔링으로 뱃살 커버. 하이웨스트로 다리 길어 보이는 효과. 내장 패드 필수</div><div class="pitags"><span class="ptag pt-hot">퀸잇 1순위</span><span class="ptag pt-col">블랙·네이비·버건디</span></div></div></div>
+    <div class="pitem"><div class="pinum">2</div><div><div class="piname">홀터넥 드레이프 모노키니</div><div class="pidesc">목에서 흘러내리는 드레이프. 앞면 커버, 등 오픈. 우아한 리조트 무드</div><div class="pitags"><span class="ptag pt-mat">나일론·스판</span><span class="ptag pt-col">아이보리·카멜·블랙</span></div></div></div>
+    <div class="pitem"><div class="pinum">3</div><div><div class="piname">프릴 어깨 모노키니 / 스포티 반팔형</div><div class="pidesc">프릴로 시선 위로 유도 / 팔뚝 살 커버 반팔형 — 퀸잇 4050 체형 니즈 직접 대응</div><div class="pitags"><span class="ptag pt-key">체형 커버</span><span class="ptag pt-aov">AOV 47~52천</span></div></div></div>
+  </div>
+  <div class="plan-card">
+    <div class="pc-top"><div class="pc-icon" style="background:var(--blue-dim)">🌊</div><div><div class="pc-title">B. 기능성 원피스 수영복 (단독)</div><div class="pc-sub">연중 실내 수요 · 취반품율 최저 예상</div></div></div>
+    <div class="pc-kpi"><div class="pk"><div class="pkl">목표 등록</div><div class="pkv" style="color:var(--blue)">8개</div></div><div class="pk"><div class="pkl">목표 AOV</div><div class="pkv" style="color:var(--green)">42,000원+</div></div><div class="pk"><div class="pkl">시기</div><div class="pkv" style="color:var(--green)">4월 내</div></div></div>
+    <div class="pitem"><div class="pinum">5</div><div><div class="piname">기능성 원피스 (탄탄이형)</div><div class="pidesc">실내수영 강습용. 내염소 처리 폴리에스터·스판. 4방향 스트레치. 사이즈 44~88 필수</div><div class="pitags"><span class="ptag pt-key">실내수영 전용</span><span class="ptag pt-col">블랙·네이비·그린</span></div></div></div>
+    <div class="pitem"><div class="pinum">6</div><div><div class="piname">플리츠 스커트 원피스 수영복</div><div class="pidesc">스커트형 하의로 허벅지 노출 최소화. 실내외 올라운더</div><div class="pitags"><span class="ptag pt-key">허벅지 커버</span><span class="ptag pt-col">블랙·와인·블루</span></div></div></div>
+    <div class="pitem"><div class="pinum">7</div><div><div class="piname">등록 전략 요약</div><div class="pidesc">4월 16개 선등록 → 5월 1주 13개 추가 = 누계 29개. 25FW AOV 47,480원 (카테고리 최고) 유지 목표</div></div></div>
+  </div>
+  <div class="plan-card">
+    <div class="pc-top"><div class="pc-icon" style="background:var(--green-dim)">📋</div><div><div class="pc-title">수영복 취반품율 & 상세 기준</div><div class="pc-sub">25FW 16.6% → 26SS ≤14% 목표</div></div></div>
+    <div class="pc-kpi"><div class="pk"><div class="pkl">25FW AOV</div><div class="pkv" style="color:var(--red)">47,480원</div></div><div class="pk"><div class="pkl">26SS 목표</div><div class="pkv" style="color:var(--green)">3,000만+</div></div><div class="pk"><div class="pkl">총 등록</div><div class="pkv" style="color:var(--blue)">30개+</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">실측 사이즈 4개 필수</div><div class="pidesc">가슴단면·허리단면·엉덩이단면·총장. 착용 후 실측 별도 표기</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">물에 젖었을 때 비침 컷 필수</div><div class="pidesc">반품 원인 1위 예방. 젖은 상태 착용컷 상세 페이지 포함</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">내장 패드 유무·두께 표기</div><div class="pidesc">패드 포함/교체 가능/없음 명확히. 불명확 시 반품 급증</div></div></div>
+    <div class="pitem"><div class="pinum">✓</div><div><div class="piname">착용 후 반품 불가 안내 상단 노출</div><div class="pidesc">수영복 위생 특성상 필수. 상세 페이지 최상단 굵은 글씨</div></div></div>
+  </div>
+</div>
+
+<div class="sec">수영복 커버업 세트 기획 — 4종 10개 목표 · AOV 55,000~90,000원</div>
+<div class="box" style="margin-bottom:16px">
+  <div class="bt">커버업 세트 구성별 AOV 구조</div>
+  <div class="bs" style="margin-bottom:12px">25FW 수영복 단독 AOV 47,480원 → 세트로 최대 +90%</div>
+  <div class="aov-row"><div class="aov-lbl">수영복 단독 (25FW 실적)</div><div class="aov-track"><div class="aov-fill" style="width:50%;background:#6b7280"><span class="aov-txt">47,480원 — 기준값</span></div></div><div class="aov-right" style="color:var(--t3)">기준</div></div>
+  <div class="aov-row"><div class="aov-lbl">S1 모노키니+쉬폰 파레오</div><div class="aov-track"><div class="aov-fill" style="width:60%;background:#2563eb"><span class="aov-txt">55,000~60,000원</span></div></div><div class="aov-right" style="color:var(--blue)">+16~26%</div></div>
+  <div class="aov-row"><div class="aov-lbl">S2 모노키니+커버업 원피스</div><div class="aov-track"><div class="aov-fill" style="width:70%;background:#7c3aed"><span class="aov-txt">62,000~68,000원</span></div></div><div class="aov-right" style="color:var(--purple)">+31~43%</div></div>
+  <div class="aov-row"><div class="aov-lbl">S3 원피스+래쉬가드 세트</div><div class="aov-track"><div class="aov-fill" style="width:76%;background:#16a34a"><span class="aov-txt">65,000~72,000원</span></div></div><div class="aov-right" style="color:var(--green)">+37~52%</div></div>
+  <div class="aov-row"><div class="aov-lbl">S4 3pcs 풀세트</div><div class="aov-track"><div class="aov-fill" style="width:90%;background:#dc2626"><span class="aov-txt">80,000~90,000원</span></div></div><div class="aov-right" style="color:var(--red)">+68~90%</div></div>
+</div>
+
+<div class="set-card">
+  <div class="set-header"><div class="set-num" style="background:var(--blue-dim);color:var(--blue)">S1</div><div class="set-info"><div class="set-title">모노키니 + 쉬폰 파레오 — 2pcs 기본 세트</div><div class="set-sub">진입장벽 낮음 · 리조트·풀파티·워터파크 모두 대응 · 4월 즉시 등록 1순위</div></div><div class="set-tags"><span class="tag f">4월 즉시</span><span class="tag" style="background:var(--amber-dim);color:var(--amber)">AOV 55~60천</span></div></div>
+  <div class="set-kpi"><div class="sk"><div class="skl">목표 등록</div><div class="skv" style="color:var(--red)">3개</div></div><div class="sk"><div class="skl">목표 AOV</div><div class="skv" style="color:var(--blue)">55,000~60,000원</div></div><div class="sk"><div class="skl">구성</div><div class="skv">2pcs</div></div><div class="sk"><div class="skl">등록 시기</div><div class="skv" style="color:var(--red)">4월 즉시</div></div><div class="sk"><div class="skl">취반품율 목표</div><div class="skv" style="color:var(--green)">≤13%</div></div></div>
+  <div class="set-body">
+    <div class="set-col"><div class="sc-head">🩱 수영복 구성</div><div class="sc-i"><b>셔링 하이웨스트 모노키니</b> — 배·허리 셔링. 하이웨스트. 내장 패드 포함</div><div class="sc-i"><b>소재:</b> 폴리에스터 80%+스판덱스 20% · 4방향 스트레치 · 빠른 건조</div><div class="sc-i"><b>컬러:</b> 블랙 / 네이비 / 버건디 (3컬러 각 1개)</div><div class="sc-i"><b>사이즈:</b> M·L·XL 필수 (S~2XL 전체 권장)</div></div>
+    <div class="set-col"><div class="sc-head">🧣 커버업 — 쉬폰 파레오</div><div class="sc-i"><b>쉬폰 랩스커트(파레오)</b> — 허리에 묶는 형태. 이동 중 하체 커버</div><div class="sc-i"><b>소재:</b> 폴리에스터 쉬폰 · 이중 레이어 (비침 방지)</div><div class="sc-i"><b>길이:</b> 미디~맥시 (무릎 아래~발목). 롱 선호도 높음</div><div class="sc-i"><b>가격대:</b> 15,000~18,000원 (세트 전용, 단독 판매 불가)</div></div>
+  </div>
+  <div class="set-footer sf-blue"><b>스타일링 포인트:</b> "수영복 입고 이동할 때 파레오 두르면 체형 커버 완성" — 파레오 묶는 방법 3가지(앞묶기·옆묶기·뒤묶기) 착용 사진 상세 페이지 필수.</div>
+</div>
+
+<div class="set-card">
+  <div class="set-header"><div class="set-num" style="background:var(--purple-dim);color:var(--purple)">S2</div><div class="set-info"><div class="set-title">모노키니 + 쉬폰 커버업 원피스 — 2pcs 리조트 룩</div><div class="set-sub">파레오보다 고급스러운 무드 · 비치클럽·리조트 풀사이드 포지셔닝 · 인생샷 최적 세트</div></div><div class="set-tags"><span class="tag n">리조트 핵심</span><span class="tag" style="background:var(--amber-dim);color:var(--amber)">AOV 62~68천</span></div></div>
+  <div class="set-kpi"><div class="sk"><div class="skl">목표 등록</div><div class="skv" style="color:var(--purple)">3개</div></div><div class="sk"><div class="skl">목표 AOV</div><div class="skv" style="color:var(--purple)">62,000~68,000원</div></div><div class="sk"><div class="skl">구성</div><div class="skv">2pcs</div></div><div class="sk"><div class="skl">등록 시기</div><div class="skv" style="color:var(--amber)">4~5월</div></div><div class="sk"><div class="skl">취반품율 목표</div><div class="skv" style="color:var(--green)">≤13%</div></div></div>
+  <div class="set-body">
+    <div class="set-col"><div class="sc-head">🩱 수영복 구성</div><div class="sc-i"><b>홀터넥 드레이프 모노키니</b> — 목에서 흘러내리는 드레이프. 앞면 커버, 등 오픈</div><div class="sc-i"><b>소재:</b> 나일론 85%+스판덱스 15% · 광택 있는 소재</div><div class="sc-i"><b>컬러:</b> 블랙 / 아이보리 / 카멜 (리조트 무드)</div></div>
+    <div class="set-col"><div class="sc-head">👗 커버업 — 쉬폰 원피스</div><div class="sc-i"><b>루즈핏 쉬폰 원피스 커버업</b> — 수영복 위에 바로 착용. 반투명으로 실루엣 살아있음</div><div class="sc-i"><b>소재:</b> 폴리에스터 쉬폰 · 가볍고 빠른 건조 · 구김 적음</div><div class="sc-i"><b>길이:</b> 미니~미디 (허벅지 중간~무릎). 오프숄더 or 브이넥</div></div>
+  </div>
+  <div class="set-footer sf-purple"><b>포지셔닝 전략:</b> "비치클럽 인생샷 필수 아이템"으로 콘텐츠 제작. 쉬폰 원피스 단독으로도 원피스처럼 착용 가능하다는 점 강조하면 구매 전환율 상승.</div>
+</div>
+
+<div class="set-card">
+  <div class="set-header"><div class="set-num" style="background:var(--green-dim);color:var(--green)">S3</div><div class="set-info"><div class="set-title">원피스 수영복 + 래쉬가드 세트 — 자외선 대응 실용 세트</div><div class="set-sub">퀸잇 4050 자외선 걱정 고객 직접 타깃 · 실내수영·워터파크·야외 모두 대응 · 취반품율 최저 예상</div></div><div class="set-tags"><span class="tag g">자외선 대응</span><span class="tag" style="background:var(--amber-dim);color:var(--amber)">AOV 65~72천</span></div></div>
+  <div class="set-kpi"><div class="sk"><div class="skl">목표 등록</div><div class="skv" style="color:var(--green)">3개</div></div><div class="sk"><div class="skl">목표 AOV</div><div class="skv" style="color:var(--green)">65,000~72,000원</div></div><div class="sk"><div class="skl">구성</div><div class="skv">2pcs</div></div><div class="sk"><div class="skl">등록 시기</div><div class="skv" style="color:var(--amber)">5월 초</div></div><div class="sk"><div class="skl">취반품율 목표</div><div class="skv" style="color:var(--green)">≤11%</div></div></div>
+  <div class="set-body">
+    <div class="set-col"><div class="sc-head">🩱 수영복 구성</div><div class="sc-i"><b>기능성 원피스 수영복 (탄탄이형)</b> — 실내수영·야외 겸용. 내구성 높은 소재</div><div class="sc-i"><b>소재:</b> 내염소 처리 폴리에스터 80%+스판덱스 20%</div><div class="sc-i"><b>컬러:</b> 블랙 / 네이비 / 다크그린 (단색 위주)</div></div>
+    <div class="set-col"><div class="sc-head">🥼 커버업 — 래쉬가드</div><div class="sc-i"><b>반팔 래쉬가드 UPF50+</b> — 자외선 차단. 빠른 건조. 수영복 위 즉시 착용</div><div class="sc-i"><b>소재:</b> 라이크라·스판덱스 혼방 · UPF50+ 인증 · 4방향 스트레치</div><div class="sc-i"><b>핏:</b> 루즈핏 권장 (한 사이즈 여유) · 팔뚝 살 커버</div></div>
+  </div>
+  <div class="set-footer sf-green"><b>퀸잇 4050 핵심 니즈:</b> "자외선 차단 + 팔뚝 살 커버 + 편안한 착용감" 세 가지 동시 해결. UPF50+ 인증 마크 강조. 실내수영 강습용으로도 구매 유도 가능.</div>
+</div>
+
+<div class="set-card">
+  <div class="set-header"><div class="set-num" style="background:var(--amber-dim);color:var(--amber)">S4</div><div class="set-info"><div class="set-title">3pcs 풀 바캉스 세트 — 모노키니 + 파레오 + 래쉬가드</div><div class="set-sub">AOV 최고 · 완벽한 바캉스 준비 한 번에 · 가성비 소구 전략 · 5월 중순 이후 집중 노출</div></div><div class="set-tags"><span class="tag f">AOV 최고</span><span class="tag" style="background:var(--amber-dim);color:var(--amber)">AOV 80~90천</span></div></div>
+  <div class="set-kpi"><div class="sk"><div class="skl">목표 등록</div><div class="skv" style="color:var(--amber)">1개</div></div><div class="sk"><div class="skl">목표 AOV</div><div class="skv" style="color:var(--amber)">80,000~90,000원</div></div><div class="sk"><div class="skl">구성</div><div class="skv">3pcs</div></div><div class="sk"><div class="skl">등록 시기</div><div class="skv" style="color:var(--amber)">5월 중순</div></div><div class="sk"><div class="skl">취반품율 목표</div><div class="skv" style="color:var(--green)">≤12%</div></div></div>
+  <div class="set-body">
+    <div class="set-col"><div class="sc-head">📦 3pcs 구성 상세</div><div class="sc-i"><b>①</b> 셔링 하이웨스트 모노키니 (블랙 or 네이비)</div><div class="sc-i"><b>②</b> 쉬폰 파레오 스커트 (동일 컬러 or 플로럴 매칭)</div><div class="sc-i"><b>③</b> 반팔 래쉬가드 UPF50+ (동일 컬러 or 화이트 대비)</div><div class="sc-i"><b>패키징:</b> 여행 파우치 또는 미니백에 담아 증정 → 언박싱 포인트</div></div>
+    <div class="set-col"><div class="sc-head">💰 가격 설계 전략</div><div class="sc-i"><b>단품 합산:</b> 모노키니 40,000 + 파레오 16,000 + 래쉬가드 27,000 = 83,000원</div><div class="sc-i"><b>세트 판매가:</b> 79,000~84,000원 → "단품 대비 최대 7% 절약" 소구</div><div class="sc-i"><b>착용 씬:</b> 워터파크 → 이동 중 → 풀사이드 3단계 스토리텔링</div><div class="sc-i"><b>구성품 플랫레이 사진</b> 필수 — "무엇이 들어있나" 명확히</div></div>
+  </div>
+  <div class="set-footer sf-amber"><b>판매 전략:</b> "바캉스 걱정 한 번에 해결" 메시지로 5~6월 여행 시즌 집중 노출. 세트 구매 시 여행 파우치 증정으로 체감 혜택 극대화. ARPPU 8만원+ 달성 시 브랜드 객단가 전체 상승 효과.</div>
+</div>
+
+<div class="sec">커버업 세트 월별 등록 스케줄</div>
+<div class="sch-grid4">
+  <div class="sch-cell sc-m4"><div class="sch-title">4월 — 즉시 등록</div><div class="sch-sub2">5월 피크 전 선등록 완료 목표</div><div class="sch-item"><b>S1 모노키니+파레오</b> 3개 즉시</div><div class="sch-item">블랙·네이비·버건디 3컬러</div><div class="sch-item">착용컷 M·L·XL 체형별</div><div class="sch-item">물에 젖었을 때 비침 테스트 컷</div><div class="sch-item">파레오 묶는 법 3가지 사진</div><div class="sch-kpi">세트 등록 목표: 3개</div></div>
+  <div class="sch-cell sc-m5a"><div class="sch-title">5월 1주 — 추가 등록</div><div class="sch-sub2">피크 직전 라인업 완성</div><div class="sch-item"><b>S2 모노키니+커버업 원피스</b> 3개</div><div class="sch-item"><b>S3 원피스+래쉬가드</b> 3개</div><div class="sch-item">리조트 배경 착용컷 포함</div><div class="sch-item">플랫레이 구성품 사진</div><div class="sch-item">세트 개별 단가 표기</div><div class="sch-kpi">세트 등록 목표: 6개 · 누계 9개</div></div>
+  <div class="sch-cell sc-m5b"><div class="sch-title">5월 2주~ — 피크 대응</div><div class="sch-sub2">등록 완료 후 운영 집중</div><div class="sch-item">신규 등록보다 노출 최적화</div><div class="sch-item">베스트 상품 상단 노출 요청</div><div class="sch-item"><b>S4 3pcs 풀세트</b> 1개 등록</div><div class="sch-item">품절 발생 즉시 재고 보충</div><div class="sch-item">사이즈 문의 즉시 대응 체계</div><div class="sch-kpi">🔥 피크 · 매출 최대화</div></div>
+  <div class="sch-cell sc-m6"><div class="sch-title">6월 — 여름 확대</div><div class="sch-sub2">피서철 대비 추가 기획</div><div class="sch-item">플로럴·비비드 컬러 세트 추가</div><div class="sch-item">S1·S2 추가 컬러 2개+</div><div class="sch-item">5월 베스트 세트 재진행 검토</div><div class="sch-item">취반품율 원인 분석 후 보완</div><div class="sch-item">26FW 수영복 기획 데이터 수집</div><div class="sch-kpi">세트 등록 목표: 2개+</div></div>
+</div>
+
+<div class="sec">커버업 세트 Do & Don't — 취반품율 13% 이하 달성 핵심</div>
+<div class="guide-grid">
+  <div class="guide-card do"><div class="gc-title" style="color:var(--green)">✓ 반드시 해야 할 것</div>
+    <div class="gc-item"><b>파레오·커버업은 반투명 소재로</b> — 수영복 실루엣이 살아있어야 함. 이중 레이어로 적당한 비침 유지. 완전 불투명이면 "그냥 원피스"와 차이 없음</div>
+    <div class="gc-item"><b>수영복-커버업 컬러 매칭을 명확히</b> — "블랙 수영복+블랙 파레오" 또는 "블랙 수영복+플로럴 파레오" 등 조합 명시. 색상 조합별 별도 등록</div>
+    <div class="gc-item"><b>착용 씬 스토리텔링</b> — 풀사이드 이동, 선베드, 물속 입수, 야외 레스토랑 등 구체적 상황별 착용컷</div>
+    <div class="gc-item"><b>세트 구성품 개별 단가 공개</b> — "모노키니 40,000 + 파레오 16,000 = 56,000원, 세트가 53,000원" 형식으로 가성비 체감 강화</div>
+    <div class="gc-item"><b>빠른 건조 소재 강조</b> — "30분 내 건조" 등 구체적 수치. 40~50대는 젖은 상태 오래 유지하는 것을 불편해함</div>
+  </div>
+  <div class="guide-card dont"><div class="gc-title" style="color:var(--red)">✗ 반드시 피해야 할 것</div>
+    <div class="gc-item"><b>마른 모델만 착용컷</b> — 퀸잇 고객 평균 체형(44~66)과 다른 마른 모델만 있으면 반품 급증. 실제 체형 모델 2명 이상 필수</div>
+    <div class="gc-item"><b>수영복 소재에 맞지 않는 커버업 소재</b> — 면이나 니트 소재 커버업은 물에 젖으면 무거워지고 건조 느림. 반드시 폴리에스터·나일론 계열</div>
+    <div class="gc-item"><b>사이즈 통일 안내 누락</b> — "수영복 L이면 래쉬가드도 L" 안내 없이 사이즈 표만 있으면 사이즈 불만족 반품 급증</div>
+    <div class="gc-item"><b>구성품 불명확</b> — "세트 상품 포함" 문구만 있고 상세 이미지 없으면 "파레오가 포함인 줄 몰랐어요" 클레임 발생</div>
+    <div class="gc-item"><b>착용 후 반품 정책 미표기</b> — 수영복은 착용 후 반품 불가 정책을 상세 페이지 상단 굵은 글씨로 필수 명시</div>
+  </div>
+</div>
+
+<div class="footer">
+  <button onclick="alert('4월 주간 체크리스트 기능 준비 중입니다')">4월 주간 체크리스트 ↗</button>
+  <button onclick="alert('재진행 선별 기준 기능 준비 중입니다')">재진행 선별 기준 ↗</button>
+</div>
+</div>
+
+</div><!-- /wrap -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// 탭
+document.querySelectorAll('.ntab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.ntab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.pane').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+  document.getElementById(t.dataset.p).classList.add('on');
+});
+
+const fK=n=>n>=1e8?(n/1e8).toFixed(1)+'억':n>=1e4?Math.round(n/1e4)+'만':'';
+const rC=r=>r>=25?'rh':r>=18?'rm':'rl';
+
+// 25SS 실제 데이터 (판매가×수량 기준)
+const SS=[
+  {n:'티셔츠',    p:219044915,r:11,c:'#3ecf7a'},
+  {n:'세트 기타', p:114612781,r:18,c:'#4f8ef7'},
+  {n:'자켓',      p:110729541,r:20,c:'#3ecf7a'},
+  {n:'니트',      p:99275573, r:15,c:'#4f8ef7'},
+  {n:'점퍼',      p:86726280, r:21,c:'#f0a030'},
+  {n:'미디 원피스',p:69998765, r:18,c:'#3ecf7a'},
+  {n:'긴바지',    p:62528151, r:20,c:'#f2564a'},
+  {n:'가디건',    p:63934700, r:16,c:'#4f8ef7'},
+  {n:'셔츠',      p:63686057, r:15,c:'#3ecf7a'},
+  {n:'롱 원피스', p:53735007, r:18,c:'#3ecf7a'},
+  {n:'블라우스',  p:46510810, r:19,c:'#3ecf7a'},
+  {n:'반바지',    p:26476265, r:21,c:'#3ecf7a'},
+];
+
+// 25FW 실제 데이터
+const FW=[
+  {n:'니트',       p:274164276,r:14,c:'#4f8ef7'},
+  {n:'가디건',     p:75970230, r:17,c:'#4f8ef7'},
+  {n:'세트 기타',  p:49607756, r:19,c:'#4f8ef7'},
+  {n:'긴바지',     p:46523591, r:23,c:'#f2564a'},
+  {n:'롱 원피스',  p:42477610, r:23,c:'#3ecf7a'},
+  {n:'자켓',       p:40629577, r:23,c:'#3ecf7a'},
+  {n:'롱 스커트',  p:39001557, r:16,c:'#3ecf7a'},
+  {n:'머플러',     p:36988546, r:11,c:'#f0a030'},
+  {n:'트레이닝세트',p:36782027, r:17,c:'#4f8ef7'},
+  {n:'티셔츠',     p:34416672, r:11,c:'#3ecf7a'},
+  {n:'조끼·베스트',p:22754027, r:19,c:'#4f8ef7'},
+  {n:'패딩·다운',  p:22658793, r:26,c:'#f0a030'},
+];
+
+// 26SS 3월 실제 데이터
+const SS26=[
+  {n:'니트',       p:45813459, r:14,c:'#4f8ef7'},
+  {n:'자켓',       p:21781899, r:22,c:'#3ecf7a'},
+  {n:'티셔츠',     p:17067971, r:11,c:'#3ecf7a'},
+  {n:'가디건',     p:16582800, r:15,c:'#4f8ef7'},
+  {n:'긴바지',     p:16073540, r:21,c:'#f2564a'},
+  {n:'세트 기타',  p:13020700, r:18,c:'#4f8ef7'},
+  {n:'롱 원피스',  p:8565500,  r:17,c:'#3ecf7a'},
+  {n:'스카프',     p:7983300,  r:11,c:'#f0a030'},
+  {n:'트레이닝세트',p:4715900,  r:17,c:'#4f8ef7'},
+  {n:'점퍼',       p:4433900,  r:21,c:'#f0a030'},
+  {n:'롱 스커트',  p:4209000,  r:15,c:'#3ecf7a'},
+  {n:'수영복',     p:3925700,  r:16,c:'#3ecf7a'},
+];
+
+function makeBar(id,data){
+  const s=[...data].sort((a,b)=>b.p-a.p);
+  const mx=s[0].p;
+  document.getElementById(id).innerHTML=s.map(d=>`<div class="brow">
+  <div class="bname">${d.n}</div>
+  <div class="btrack"><div class="bfill" style="width:${Math.round(d.p/mx*100)}%;background:${d.c};opacity:.85"></div></div>
+  <div class="bval">${fK(d.p)}</div>
+  <div class="brate ${rC(d.r)}">${d.r}%</div>
+</div>`).join('');
+}
+makeBar('barSS',SS);
+makeBar('barFW',FW);
+makeBar('bar26SS',SS26);
+
+// 월별 흐름 — 25.03~26.04 (15개 레이블)
+const labels=['25.03','25.04','25.05','25.06','25.07','25.08','25.09','25.10','25.11','25.12','26.01','26.02','26.03(FW)','26.03(26SS)','26.04↗'];
+const dSS= [202679332,182336129,174792048,217486080,236847117,158312720,null,null,null,null,null,null,null,null,null];
+const dFW= [null,null,null,null,null,null,139424333,127771595,175563503,149228159,159282344,143945913,142991890,null,null];
+const d26= [null,null,null,null,null,null,null,null,null,null,null,null,null,142926090,45432836];
+
+Chart.defaults.color='#6b6b80';
+new Chart(document.getElementById('cmpChart'),{
+  type:'bar',
+  data:{labels,datasets:[
+    {label:'25SS',data:dSS,backgroundColor:'rgba(79,142,247,0.65)',borderRadius:3,borderSkipped:false},
+    {label:'25FW',data:dFW,backgroundColor:'rgba(62,207,122,0.65)',borderRadius:3,borderSkipped:false},
+    {label:'26SS',data:d26,backgroundColor:'rgba(240,160,48,0.75)',borderRadius:3,borderSkipped:false},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{
+      const v=ctx.raw;if(!v&&v!==0)return null;
+      return `${ctx.dataset.label}: ${v>=1e8?(v/1e8).toFixed(2)+'억':(v/1e4).toFixed(0)+'만'}원`;
+    }}}},
+    scales:{
+      x:{ticks:{color:'#6b6b80',font:{size:9},maxRotation:40,autoSkip:false},grid:{display:false}},
+      y:{ticks:{color:'#6b6b80',font:{size:10},callback:v=>v>=1e8?(v/1e8).toFixed(1)+'억':v>=1e4?(v/1e4)+'만':v},grid:{color:'rgba(255,255,255,0.04)'},min:0}
+    }
+  }
+});
+</script>
+</body>
+</html>
