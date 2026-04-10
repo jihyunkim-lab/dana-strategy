@@ -287,6 +287,7 @@ tbody tr:hover td{background:var(--bg3)}
   <button class="ntab" data-p="p2">시즌별 핵심 카테고리</button>
   <button class="ntab" data-p="p3">시즌별 부족 카테고리</button>
   <button class="ntab" data-p="p4">2Q 우선순위 실행 전략</button>
+  <button class="ntab" data-p="p5">고객 분석</button>
 </div>
 
 <!-- ══ P1 전략 매트릭스 ══ -->
@@ -305,10 +306,10 @@ tbody tr:hover td{background:var(--bg3)}
     <div class="kr"><div class="km"><div class="kl">취소+반품 합계</div><div class="kv rd">16.0%</div><div class="ks">취소+반품 개선</div></div><div class="km"><div class="kl">시즌 AOV</div><div class="kv am">31,876원</div><div class="ks">7개월 가중평균</div></div></div>
   </div>
   <div class="kpi-col">
-    <div class="kpi-col-title">26SS · 2026.03~04.09 · 진행중 · 판매가×수량 기준</div>
-    <div class="kr"><div class="km"><div class="kl">퀸잇 GMV (rpls)</div><div class="kv gn">2.25억</div><div class="ks">3월+4월 부분 합산</div></div><div class="km"><div class="kl">PAID (판매가×수량)</div><div class="kv gn">1.88억</div><div class="ks">188,358,926원</div></div></div>
+    <div class="kpi-col-title">26SS 1Q · 2026.03 · 3월 마감 · 판매가×수량 기준</div>
+    <div class="kr"><div class="km"><div class="kl">퀸잇 GMV (rpls)</div><div class="kv gn">1.74억</div><div class="ks">3월 마감 기준</div></div><div class="km"><div class="kl">PAID (판매가×수량)</div><div class="kv gn">1.43억</div><div class="ks">142,926,090원</div></div></div>
     <div class="kr"><div class="km"><div class="kl">취소율</div><div class="kv rd">6.4%</div><div class="ks">3월 마감 기준</div></div><div class="km"><div class="kl">반품율</div><div class="kv rd">10.1%</div><div class="ks">3월 마감 기준</div></div></div>
-    <div class="kr"><div class="km"><div class="kl">취소+반품 합계</div><div class="kv rd">16.5%</div><div class="ks">3월 마감 기준</div></div><div class="km"><div class="kl">시즌 AOV</div><div class="kv gn">31,790원</div><div class="ks">3월 기준</div></div></div>
+    <div class="kr"><div class="km"><div class="kl">취소+반품 합계</div><div class="kv rd">16.5%</div><div class="ks">3월 마감 기준</div></div><div class="km"><div class="kl">1Q AOV</div><div class="kv gn">31,790원</div><div class="ks">3월 마감 기준</div></div></div>
   </div>
 </div>
 
@@ -919,7 +920,638 @@ tbody tr:hover td{background:var(--bg3)}
 </div>
 </div>
 
+<!-- ══ P5 고객 분석 ══ -->
+<div class="pane" id="p5">
+
+<!-- 서브탭 -->
+<div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px;overflow-x:auto">
+  <button class="stab on" id="st1" onclick="switchSub('sub1',this)" style="font-size:11px;padding:10px 18px;font-weight:500;cursor:pointer;border-bottom:2px solid var(--blue);color:var(--blue);white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none">퀸잇 고객 분석 (시장)</button>
+  <button class="stab" id="st2" onclick="switchSub('sub2',this)" style="font-size:11px;padding:10px 18px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--t3);white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none">다나앤페타 고객 분석 (실데이터)</button>
+</div>
+
+<!-- 서브탭1: 기존 퀸잇 시장 분석 -->
+<div id="sub1">
+
+<!-- 핵심 지표 4개 -->
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:20px">
+  <div class="km2" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px">
+    <div class="kl">퀸잇 핵심 구매층</div>
+    <div class="kv bl" style="font-size:22px">45~55세</div>
+    <div class="ks" style="margin-top:4px">전체 구매의 <b style="color:var(--t1)">80%</b> 차지 · 어패럴뉴스</div>
+  </div>
+  <div class="km2" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px">
+    <div class="kl">퀸잇 단독사용률</div>
+    <div class="kv gn" style="font-size:22px">56.7%</div>
+    <div class="ks" style="margin-top:4px">패션앱 중 <b style="color:var(--t1)">1위</b> · 에이블리 38% · 무신사 32% · 와이즈앱 2025.09</div>
+  </div>
+  <div class="km2" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px">
+    <div class="kl">1인당 객단가</div>
+    <div class="kv am" style="font-size:22px">10만원대</div>
+    <div class="ks" style="margin-top:4px">AOV 3.2만 × 평균 <b style="color:var(--t1)">3개+</b> 구매 · 어패럴뉴스</div>
+  </div>
+  <div class="km2" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px">
+    <div class="kl">40~50대 패션 소비 비중</div>
+    <div class="kv rd" style="font-size:22px">46.4%</div>
+    <div class="ks" style="margin-top:4px">50대 23.6% + 40대 22.8% · 코리아리서치 패션소비실태</div>
+  </div>
+</div>
+
+<!-- 섹션 1: 퀸잇 플랫폼 내 고객 특성 -->
+<div class="sec">퀸잇 내 4050 고객 — 플랫폼 데이터 기반</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px">
+
+  <div class="box">
+    <div class="bt">유입 구조 — 오가닉이 광고보다 높음</div>
+    <div class="bs" style="margin-bottom:10px">에어브릿지 분석 · 라포랩스 공식 데이터</div>
+    <div style="background:var(--bg3);border-radius:var(--r-sm);padding:10px;margin-bottom:8px">
+      <div style="font-size:10px;color:var(--t3);margin-bottom:4px">유입 채널 구조</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <div style="font-size:10px;color:var(--t1);width:70px">오가닉</div>
+        <div style="flex:1;height:14px;background:var(--bg4);border-radius:3px;overflow:hidden"><div style="width:72%;height:100%;background:var(--green);opacity:.8;border-radius:3px"></div></div>
+        <div style="font-size:10px;color:var(--green);width:30px;text-align:right">높음</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-size:10px;color:var(--t1);width:70px">유료광고</div>
+        <div style="flex:1;height:14px;background:var(--bg4);border-radius:3px;overflow:hidden"><div style="width:28%;height:100%;background:var(--t3);opacity:.6;border-radius:3px"></div></div>
+        <div style="font-size:10px;color:var(--t3);width:30px;text-align:right">낮음</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.6">4050 여성 사이 <b style="color:var(--t1)">카카오톡·입소문</b>이 핵심 유입 경로. 아파트 단지 이웃 추천, 카톡 공유가 실제 사례로 확인됨. 광고 없이도 성장하는 구조 = <b style="color:var(--t1)">상품 품질이 곧 마케팅</b></div>
+  </div>
+
+  <div class="box">
+    <div class="bt">구매 패턴 — 브랜드 재구매 성향</div>
+    <div class="bs" style="margin-bottom:10px">포스티 MD 분석 · 업계 공통 데이터</div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.7;margin-bottom:8px">
+      "중년여성의 경우 본인들의 스타일을 확실하게 찾은 경우가 드물지만 <b style="color:var(--t1)">구매 경험이 있는 브랜드 위주</b>로 쇼핑을 하는 특징이 있다" — 포스티 관계자
+    </div>
+    <div style="background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:var(--r-sm);padding:8px 10px">
+      <div style="font-size:10px;color:var(--blue);line-height:1.6"><b>다나앤페타 전략 연결:</b> 재진행 상품이 신상보다 안정적인 이유. 한번 산 고객이 재구매 가능성 높음. 재진행 91개(니트), 62개(롱 원피스)의 전략적 근거</div>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="bt">실패 사례 — 맞춤형 콘텐츠 실패시 이탈</div>
+    <div class="bs" style="margin-bottom:10px">무신사·브랜디 4050앱 운영 종료 사례</div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.65;margin-bottom:8px">무신사 '레이지나잇', 브랜디 '플레어' 모두 4050 전용앱으로 런칭했으나 <b style="color:var(--t1)">4050 맞춤형 콘텐츠 제공 실패</b>로 운영 종료. W컨셉도 중년여성 유입률 급감</div>
+    <div style="background:var(--red-dim);border:1px solid var(--red-border);border-radius:var(--r-sm);padding:8px 10px">
+      <div style="font-size:10px;color:var(--red);line-height:1.6"><b>실패 원인:</b> 2030 스타일 그대로에 사이즈만 키운 상품 / 2030 모델 착용컷 / 젊은 감성 키워드. 이 세대는 "우리를 위한 것"이라는 확신이 없으면 바로 이탈</div>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 2: 구매 결정 요인 -->
+<div class="sec">구매 결정 요인 — 데이터 기반 우선순위</div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:20px">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;border-top:3px solid var(--red)">
+    <div style="font-size:18px;font-weight:600;color:var(--red);margin-bottom:4px">1순위</div>
+    <div style="font-size:12px;font-weight:500;color:var(--t1);margin-bottom:6px">체형 커버</div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.6">뱃살·팔뚝·허벅지 노출 최소화. 셔링·루즈핏·7부소매·플레어가 베스트셀러 공통 요소. <b style="color:var(--t1)">체형 커버 = 구매 트리거</b></div>
+    <div style="margin-top:6px;font-size:9px;color:var(--t3)">중년여성의류 전 플랫폼 공통</div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;border-top:3px solid var(--amber)">
+    <div style="font-size:18px;font-weight:600;color:var(--amber);margin-bottom:4px">2순위</div>
+    <div style="font-size:12px;font-weight:500;color:var(--t1);margin-bottom:6px">소재·착용감</div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.6">퀸잇 창업자 분석: <b style="color:var(--t1)">소재가 디자인보다 먼저</b>. 인견·쉬폰·린넨 등 시원하고 편한 소재. 불편하면 구매 불가</div>
+    <div style="margin-top:6px;font-size:9px;color:var(--t3)">퀸잇 창업자 인터뷰 · 어패럴뉴스</div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;border-top:3px solid var(--blue)">
+    <div style="font-size:18px;font-weight:600;color:var(--blue);margin-bottom:4px">3순위</div>
+    <div style="font-size:12px;font-weight:500;color:var(--t1);margin-bottom:6px">여성스러운 디테일</div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.6">진주장식·플리츠·리본·플라워 패턴이 실제 베스트셀러 상품명에 반복. <b style="color:var(--t1)">클래식 로맨틱 수요는 트렌드 이전부터</b> 원래 높았음</div>
+    <div style="margin-top:6px;font-size:9px;color:var(--t3)">중년여성 전문몰 베스트셀러 공통</div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;border-top:3px solid var(--green)">
+    <div style="font-size:18px;font-weight:600;color:var(--green);margin-bottom:4px">4순위</div>
+    <div style="font-size:12px;font-weight:500;color:var(--t1);margin-bottom:6px">구매 상황·TPO</div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.6">상품명 키워드: <b style="color:var(--t1)">"하객·상견례·모임·출근"</b> 반복. 일상복보다 특별한 날 입을 옷에 지갑이 열림. AOV 상승 기회</div>
+    <div style="margin-top:6px;font-size:9px;color:var(--t3)">GS샵·홈쇼핑모아 베스트셀러 분석</div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;border-top:3px solid var(--purple)">
+    <div style="font-size:18px;font-weight:600;color:var(--purple);margin-bottom:4px">5순위</div>
+    <div style="font-size:12px;font-weight:500;color:var(--t1);margin-bottom:6px">컬러 — 안전 우선</div>
+    <div style="font-size:10px;color:var(--t2);line-height:1.6">실제 구매 컬러: <b style="color:var(--t1)">네이비·베이지·그레이·블랙·와인</b>. 화사하되 튀지 않는 컬러. 원색 비비드는 티셔츠 한정 소량 테스트</div>
+    <div style="margin-top:6px;font-size:9px;color:var(--t3)">중년여성의류 전 플랫폼 공통</div>
+  </div>
+</div>
+
+<!-- 섹션 3: 고객 vs 플랫폼 비교 -->
+<div class="sec">4050 고객 쇼핑 플랫폼 비교 — 퀸잇 포지셔닝</div>
+<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px">
+  <table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:8px 12px;background:var(--bg3);font-size:10px;color:var(--t2);border-bottom:1px solid var(--border)">구분</th>
+        <th style="padding:8px 12px;background:var(--bg3);font-size:10px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">백화점</th>
+        <th style="padding:8px 12px;background:var(--bg3);font-size:10px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">홈쇼핑</th>
+        <th style="padding:8px 12px;background:var(--blue-dim);font-size:10px;color:var(--blue);border-bottom:1px solid var(--border);text-align:center;font-weight:600">퀸잇 ★</th>
+        <th style="padding:8px 12px;background:var(--bg3);font-size:10px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">무신사·지그재그</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t1);border-bottom:1px solid var(--border)">주 고객층</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">명품 선호 4060</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">4060 여성</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--blue);border-bottom:1px solid var(--border);text-align:center;font-weight:500">45~55세 여성</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">2030 여성</td>
+      </tr>
+      <tr>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t1);border-bottom:1px solid var(--border)">가격대</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">고가</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">중저가~중가</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--blue);border-bottom:1px solid var(--border);text-align:center;font-weight:500">중가 (AOV 3.2만)</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">중저가~중가</td>
+      </tr>
+      <tr>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t1);border-bottom:1px solid var(--border)">4050 여성복 콘텐츠</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">명품·컨템퍼러리<br>집중으로 축소</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">풍부하나<br>라이브 의존</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--blue);border-bottom:1px solid var(--border);text-align:center;font-weight:500">4050 전용<br>큐레이션</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--red);border-bottom:1px solid var(--border);text-align:center">미흡<br>(4050앱 전부 종료)</td>
+      </tr>
+      <tr>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t1);border-bottom:1px solid var(--border)">단독사용률</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">해당없음</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">해당없음</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--blue);border-bottom:1px solid var(--border);text-align:center;font-weight:500">56.7% (1위)</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);border-bottom:1px solid var(--border);text-align:center">무신사 32%</td>
+      </tr>
+      <tr>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t1)">재구매 성향</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);text-align:center">높음</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);text-align:center">높음</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--blue);text-align:center;font-weight:500">높음 (충성도 강)</td>
+        <td style="padding:7px 12px;font-size:11px;color:var(--t2);text-align:center">낮음 (트렌드 이동)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 섹션 4: 다나앤페타 상품 전략 연결 -->
+<div class="sec">고객 데이터 → 다나앤페타 상품 전략 연결</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px">
+    <div style="font-size:12px;font-weight:500;color:var(--green);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">✓ 고객 수요와 현재 전략이 일치하는 것</div>
+    <div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">클래식 로맨틱 블라우스 기획</b> — 리본·러플·플리츠에 대한 50대 수요는 원래 높았음. 이번 시즌 트렌드와 우연히 일치. 확신있게 밀어도 됨</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">재진행 전략 우선</b> — 브랜드 재구매 성향 강한 고객군. 25FW에서 구매한 고객이 재진행 상품 보면 전환율 높음</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">수영복 커버업 세트</b> — 체형 커버 1순위 + 이동 중 품위 동시 해결. 퀸잇 4050 핵심 니즈 정확히 타격</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">네이비·베이지·와인 컬러 중심</b> — 실제 4050 구매 컬러 데이터와 정확히 일치</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">블라우스+조끼 세트 기획</b> — 하객·모임 TPO 수요 + 체형 커버 동시 대응. ARPPU 4만원+ 달성 근거</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px">
+    <div style="font-size:12px;font-weight:500;color:var(--red);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">⚠️ 고객 수요 대비 현재 전략에서 보완 필요한 것</div>
+    <div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">소재 정보 강조 부족</b> — 구매 결정 2순위가 소재인데, 상세 페이지에 소재 명시·착용감 묘사가 약함. 린넨·코튼·인견 등 구체적 소재 정보 선행 필수</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">체형별 착용컷 실행 체크</b> — 전략에는 있으나 실제 등록 상품에 40~50대 체형 모델 착용컷이 있는지 확인 필요. 없으면 반품 급증</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">비비드 컬러 범위 조심</b> — 티셔츠 한정으로 소량 테스트는 맞으나, 자켓·블라우스에 비비드 원색 적용하면 4050 고객 이탈 위험. 컬러 기획 단계에서 세분화 필요</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-start">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:4px"></div>
+      <div style="font-size:10px;color:var(--t2);line-height:1.55"><b style="color:var(--t1)">상품명 고객 언어화</b> — 내부 기획용 "포엣코어", "볼륨 트렌드" 키워드가 상품명·태그에 그대로 노출되지 않도록 주의. 4050은 이 단어를 검색하지 않음</div>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 5: 퀸잇 성장 데이터 -->
+<div class="sec">퀸잇 플랫폼 성장 추이 — 다나앤페타 시장 기회 맥락</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px">
+  <div class="box">
+    <div class="bt">퀸잇 MAU 성장</div>
+    <div class="bs">와이즈앱 데이터</div>
+    <div style="position:relative;width:100%;height:160px">
+      <canvas id="mauChart" role="img" aria-label="퀸잇 월간 사용자 성장 추이"></canvas>
+    </div>
+  </div>
+  <div class="box">
+    <div class="bt">4050 여성 패션 소비 비중</div>
+    <div class="bs">코리아리서치 패션소비실태조사</div>
+    <div style="position:relative;width:100%;height:160px">
+      <canvas id="ageChart" role="img" aria-label="연령대별 패션 소비 비중"></canvas>
+    </div>
+  </div>
+  <div class="box">
+    <div class="bt">퀸잇 단독사용률 비교</div>
+    <div class="bs">패션앱 단독사용률 · 와이즈앱 2025.09</div>
+    <div style="position:relative;width:100%;height:160px">
+      <canvas id="soloChart" role="img" aria-label="패션앱 단독사용률 비교"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 6: 고객 언어 가이드 -->
+<div class="sec">4050 고객 언어 가이드 — 상품명·상세 페이지 적용</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px">
+    <div style="font-size:11px;font-weight:500;color:var(--t1);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">검색 키워드 — 실제로 검색하는 단어</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px">
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">우아한 블라우스</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">여성스러운 자켓</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">클래식 원피스</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">체형커버 블라우스</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">하객 원피스</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">모임 자켓</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">린넨 블라우스</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">편안한 롱 원피스</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">봄 가디건</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--green-dim);color:var(--green)">플로럴 원피스</span>
+    </div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px">
+    <div style="font-size:11px;font-weight:500;color:var(--t1);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">사용 금지 키워드 — 검색 안 함·이탈 유발</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px">
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-dim);color:var(--red)">포엣코어</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-dim);color:var(--red)">볼륨 트렌드</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-dim);color:var(--red)">비비드 컬러</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-dim);color:var(--red)">Y2K</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-dim);color:var(--red)">오버핏 무드</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-dim);color:var(--red)">스트릿 감성</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--red-dim);color:var(--red)">과감한 실루엣</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--amber-dim);color:var(--amber)">젊어 보이는</span>
+      <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:var(--amber-dim);color:var(--amber)">트렌디한</span>
+    </div>
+    <div style="margin-top:8px;font-size:9px;color:var(--t3);line-height:1.5">주황 = 조심. 젊어 보인다는 표현은 오히려 "지금 나이에 맞지 않다"는 불안감 유발 가능</div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px">
+    <div style="font-size:11px;font-weight:500;color:var(--t1);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)">상세 페이지 필수 항목 체크리스트</div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:14px;height:14px;border-radius:3px;background:var(--green-dim);color:var(--green);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div><div style="font-size:10px;color:var(--t2)">실측 사이즈 4개 (총장·어깨·가슴·소매)</div></div>
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:14px;height:14px;border-radius:3px;background:var(--green-dim);color:var(--green);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div><div style="font-size:10px;color:var(--t2)">40~50대 체형 모델 착용컷 3장+</div></div>
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:14px;height:14px;border-radius:3px;background:var(--green-dim);color:var(--green);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div><div style="font-size:10px;color:var(--t2)">비침 여부 명시 (3단계 표기)</div></div>
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:14px;height:14px;border-radius:3px;background:var(--green-dim);color:var(--green);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div><div style="font-size:10px;color:var(--t2)">소재 구체적 명시 (린넨 00%+코튼 00%)</div></div>
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:14px;height:14px;border-radius:3px;background:var(--green-dim);color:var(--green);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div><div style="font-size:10px;color:var(--t2)">착용 상황 명시 (모임·출근·하객 등)</div></div>
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:14px;height:14px;border-radius:3px;background:var(--green-dim);color:var(--green);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div><div style="font-size:10px;color:var(--t2)">체형 커버 포인트 명시 (어느 부위 커버)</div></div>
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:14px;height:14px;border-radius:3px;background:var(--amber-dim);color:var(--amber);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">!</div><div style="font-size:10px;color:var(--t2)">수영복: 물에 젖었을 때 비침 컷 추가</div></div>
+    </div>
+  </div>
+</div>
+</div><!-- /sub1 -->
+
+<!-- sub2는 p5 안에 있어야 함 — switchSub로 토글 -->
+<style>
+.da-sec{margin-bottom:24px}
+.da-sec-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:700;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.da-callout{background:var(--blue);color:#fff;border-radius:var(--r-lg);padding:14px 18px;margin-bottom:14px;font-size:12px;line-height:1.7}
+.da-grid{display:grid;gap:12px;margin-bottom:14px}
+.da-grid-2{grid-template-columns:1fr 1fr}
+.da-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.da-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px}
+.da-kpi{text-align:center}
+.da-kpi-v{font-size:24px;font-weight:800;color:var(--blue)}
+.da-kpi-l{font-size:11px;color:var(--t3);margin-top:3px}
+.da-kpi-s{font-size:11px;color:var(--t2);margin-top:2px}
+.da-ins{background:var(--bg3);border-left:3px solid var(--blue);padding:8px 12px;border-radius:0 6px 6px 0;font-size:11px;color:var(--t2);margin-top:10px;line-height:1.6}
+.da-br{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.da-br-l{font-size:10px;color:var(--t1);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.da-br-t{flex:1;height:18px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.da-br-f{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px;font-size:9px;font-weight:600;color:#fff;min-width:20px}
+.da-br-v{font-size:10px;color:var(--t2);width:52px;text-align:right;flex-shrink:0}
+.da-flow{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;flex-wrap:wrap}
+.da-flow-b{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 14px;text-align:center;min-width:80px}
+.da-flow-v{font-size:16px;font-weight:700;color:var(--blue)}
+.da-flow-l{font-size:10px;color:var(--t3);margin-top:2px}
+.da-flow-a{font-size:14px;color:var(--t3)}
+.da-break{display:flex;height:28px;border-radius:6px;overflow:hidden;margin:10px 0}
+.da-break-f{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff}
+.da-search{width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:11px;background:var(--bg3);color:var(--t1);margin-bottom:8px;outline:none}
+.da-search:focus{border-color:var(--blue)}
+.da-fbtn{padding:3px 10px;border-radius:5px;font-size:10px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--t2);transition:all .15s}
+.da-fbtn.act{background:var(--blue);color:#fff;border-color:var(--blue)}
+.da-tab-row{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.da-scroll{max-height:460px;overflow-y:auto}
+.da-tag{display:inline-block;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:600}
+.da-tag-pb{background:var(--purple-dim);color:var(--purple)}
+.da-tag-s{background:var(--blue-dim);color:var(--blue)}
+</style>
+<div id="sub2" style="display:none">
+
+<div class="da-callout">
+  <strong>다나앤페타 구매고객 67,587명 — 2025.01~2026.04.09 실제 데이터</strong>
+  10명 중 9명(90.5%)은 기존 퀸잇 충성 고객. LTV 102.4만원 중 다나앤페타 기여는 3.9만원(3.7%). 다나앤페타 고객 = 퀸잇 헤비유저의 크로스셀링 브랜드.
+</div>
+
+<div class="da-grid da-grid-4">
+  <div class="da-card da-kpi"><div class="da-kpi-v">90.5%</div><div class="da-kpi-l">기존 퀸잇 고객 비중</div><div class="da-kpi-s">61,193명</div></div>
+  <div class="da-card da-kpi"><div class="da-kpi-v" style="color:var(--green)">102.4만원</div><div class="da-kpi-l">고객 평균 LTV</div><div class="da-kpi-s">비구매 고객의 3.9배</div></div>
+  <div class="da-card da-kpi"><div class="da-kpi-v" style="color:var(--amber)">8일</div><div class="da-kpi-l">퀸잇 재주문 중앙값</div><div class="da-kpi-s">매주 구매하는 헤비유저</div></div>
+  <div class="da-card da-kpi"><div class="da-kpi-v" style="color:var(--red)">86.2%</div><div class="da-kpi-l">다나앤페타 1회 구매</div><div class="da-kpi-s">재구매 유도 여지 큼</div></div>
+</div>
+
+<!-- 1. 고객 유형 -->
+<div class="da-sec">
+<div class="da-sec-title">1. 구매고객 유형</div>
+<div class="da-grid da-grid-2">
+  <div class="da-card">
+    <div class="bt">고객 유형 구성</div><div class="bs">전체 67,587명 기준</div>
+    <div class="da-break">
+      <div class="da-break-f" style="width:90.5%;background:var(--blue)">기존 고객 90.5%</div>
+      <div class="da-break-f" style="width:8.3%;background:var(--t3);font-size:8px">8.3%</div>
+      <div class="da-break-f" style="width:1.2%;background:var(--amber)"></div>
+    </div>
+    <div style="display:flex;gap:10px;font-size:10px;color:var(--t2);margin-bottom:10px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:var(--blue);border-radius:2px;display:inline-block"></span>기존 퀸잇 고객 61,193명</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:var(--t3);border-radius:2px;display:inline-block"></span>첫구매=다나앤페타 5,577명</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:var(--amber);border-radius:2px;display:inline-block"></span>7일내 가입 817명</span>
+    </div>
+    <div class="da-ins">10명 중 9명은 <b style="color:var(--t1)">기존 퀸잇 고객</b>. 다나앤페타는 신규 유입이 아닌 <b style="color:var(--t1)">기존 충성 고객 크로스셀링 브랜드</b>. 재진행 상품 전략이 유효한 이유.</div>
+  </div>
+  <div class="da-card">
+    <div class="bt">기존 고객의 퀸잇 이용 기간</div><div class="bs">장기 충성 고객이 핵심 구매층</div>
+    <div id="da_tenureBars"></div>
+    <div class="da-ins"><b style="color:var(--t1)">2년+ 이용 고객이 59.7%</b>. 1년+ 장기 고객 79.3% → 오래된 충성 고객일수록 다나앤페타도 구매.</div>
+  </div>
+</div>
+</div>
+
+<!-- 2. 구매 경로 -->
+<div class="da-sec">
+<div class="da-sec-title">2. 구매 경로</div>
+<div class="da-grid da-grid-2">
+  <div class="da-card">
+    <div class="bt">최초 클릭 지면 (First Touch)</div><div class="bs">구매 여정 시작점</div>
+    <div id="da_firstBars"></div>
+  </div>
+  <div class="da-card">
+    <div class="bt">최종 클릭 지면 (Last Touch)</div><div class="bs">구매 직전 접점</div>
+    <div id="da_lastBars"></div>
+    <div class="da-ins"><b style="color:var(--t1)">기획전이 시작·종료 모두 1위</b>. 검색이 2위 → 상품명 최적화·기획전 노출 확보가 매출 직결.</div>
+  </div>
+</div>
+</div>
+
+<!-- 3. 재구매 빈도 -->
+<div class="da-sec">
+<div class="da-sec-title">3. 다나앤페타 재구매 빈도 & 인기 상품</div>
+<div class="da-grid da-grid-2">
+  <div class="da-card">
+    <div class="bt">구매 빈도 분포</div><div class="bs">다나앤페타 내 재구매</div>
+    <div id="da_freqBars"></div>
+    <div class="da-ins"><b style="color:var(--red)">86.2%가 1회 구매</b>. 재구매율(2회+) 13.8%. 리타겟팅·후속쿠폰으로 LTV 확대 여지 큼.</div>
+  </div>
+  <div class="da-card">
+    <div class="bt">인기 상품 TOP 5</div><div class="bs">구매 고객 수 기준</div>
+    <div id="da_topBars"></div>
+    <div class="da-ins">기본 캐주얼(티셔츠·점퍼)이 상위권. <b style="color:var(--t1)">리본 브로치 니트(4위)</b> — 클래식 로맨틱 전략 방향 검증.</div>
+  </div>
+</div>
+</div>
+
+<!-- 4. LTV 분석 -->
+<div class="da-sec">
+<div class="da-sec-title">4. LTV 분석</div>
+<div class="da-grid da-grid-2">
+  <div class="da-card">
+    <div class="bt">다나앤페타 vs 비구매 고객</div><div class="bs">퀸잇 전체 LTV 기준</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <thead><tr style="border-bottom:1px solid var(--border)">
+        <th style="text-align:left;padding:6px 8px;color:var(--t3);font-weight:500;font-size:10px">지표</th>
+        <th style="text-align:right;padding:6px 8px;color:var(--t3);font-weight:500;font-size:10px">다나앤페타 고객</th>
+        <th style="text-align:right;padding:6px 8px;color:var(--t3);font-weight:500;font-size:10px">비구매 고객</th>
+        <th style="text-align:right;padding:6px 8px;color:var(--t3);font-weight:500;font-size:10px">배수</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">평균 LTV</td><td style="padding:6px 8px;text-align:right;font-weight:600;color:var(--blue)">102.4만</td><td style="padding:6px 8px;text-align:right">26.1만</td><td style="padding:6px 8px;text-align:right;color:var(--green);font-weight:600">3.9x</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">중앙값</td><td style="padding:6px 8px;text-align:right;font-weight:600;color:var(--blue)">58.9만</td><td style="padding:6px 8px;text-align:right">9.9만</td><td style="padding:6px 8px;text-align:right;color:var(--green);font-weight:600">5.9x</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 8px">평균 주문</td><td style="padding:6px 8px;text-align:right;font-weight:600">18.7회</td><td style="padding:6px 8px;text-align:right">4.8회</td><td style="padding:6px 8px;text-align:right;color:var(--green);font-weight:600">3.9x</td></tr>
+        <tr><td style="padding:6px 8px">구매 브랜드 수</td><td style="padding:6px 8px;text-align:right;font-weight:600">18.7개</td><td style="padding:6px 8px;text-align:right">5.0개</td><td style="padding:6px 8px;text-align:right;color:var(--green);font-weight:600">3.7x</td></tr>
+      </tbody>
+    </table>
+    <div class="da-ins">LTV가 높은 이유는 원래 퀸잇 헤비유저이기 때문. 다나앤페타 자체 기여는 3.9만원(3.7%)에 불과.</div>
+  </div>
+  <div class="da-card">
+    <div class="bt">LTV 구성 분해 & 재주문 주기</div><div class="bs">1인당 구매액 기준</div>
+    <div class="da-break">
+      <div class="da-break-f" style="width:96.3%;background:var(--blue)">다른 브랜드 96.3% (102.8만원)</div>
+      <div class="da-break-f" style="width:3.7%;background:var(--amber);font-size:8px">3.7%</div>
+    </div>
+    <div style="font-size:10px;color:var(--t2);margin-bottom:12px">다나앤페타: 3.9만원 · 주문 1.2회 · AOV 3.1만 | 다른 브랜드: 102.8만원 · 주문 18.7회 · AOV 3.9만</div>
+    <div class="bt" style="margin-bottom:6px">퀸잇 전체 재주문 주기</div>
+    <div class="da-flow">
+      <div class="da-flow-b"><div class="da-flow-v">8일</div><div class="da-flow-l">중앙값</div></div>
+      <div class="da-flow-a">~</div>
+      <div class="da-flow-b"><div class="da-flow-v" style="color:var(--t2)">19.7일</div><div class="da-flow-l">평균</div></div>
+      <div class="da-flow-a">|</div>
+      <div class="da-flow-b"><div class="da-flow-v" style="color:var(--t2)">3일</div><div class="da-flow-l">25%구간</div></div>
+      <div class="da-flow-a">~</div>
+      <div class="da-flow-b"><div class="da-flow-v" style="color:var(--t2)">22일</div><div class="da-flow-l">75%구간</div></div>
+    </div>
+    <div class="da-ins">절반이 <b style="color:var(--t1)">8일 이내 재주문</b>. 13개월+ 활성 고객(9,633명)의 평균 구매액 <b style="color:var(--t1)">295.5만원</b>.</div>
+  </div>
+</div>
+</div>
+
+<!-- 5. 교차구매 브랜드 -->
+<div class="da-sec">
+<div class="da-sec-title">5. 교차구매 브랜드 TOP 40</div>
+<div class="da-grid da-grid-4" style="margin-bottom:12px">
+  <div class="da-card da-kpi"><div class="da-kpi-v" style="color:var(--purple)">25.9%</div><div class="da-kpi-l">1위 마치마라 (PB)</div></div>
+  <div class="da-card da-kpi"><div class="da-kpi-v" style="color:var(--purple)">18.7%</div><div class="da-kpi-l">2위 지재 (PB)</div></div>
+  <div class="da-card da-kpi"><div class="da-kpi-v">17.1%</div><div class="da-kpi-l">3위 메르시마리에</div></div>
+  <div class="da-card da-kpi"><div class="da-kpi-v">16.9%</div><div class="da-kpi-l">4위 프렌치시크</div></div>
+</div>
+<div class="da-card">
+  <div class="bt" style="margin-bottom:8px">함께 구매하는 브랜드 TOP 40</div>
+  <input type="text" class="da-search" id="da_searchInput" placeholder="브랜드명 검색..." oninput="da_filterTable()">
+  <div class="da-tab-row">
+    <div class="da-fbtn act" onclick="da_filterType('all',this)">전체 (40)</div>
+    <div class="da-fbtn" onclick="da_filterType('PB',this)">PB (2)</div>
+    <div class="da-fbtn" onclick="da_filterType('BY_SELLER',this)">직입점 (38)</div>
+  </div>
+  <div class="da-scroll">
+  <table style="width:100%;border-collapse:collapse;font-size:11px;white-space:nowrap">
+    <thead><tr>
+      <th style="width:24px;background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:left;font-size:10px;color:var(--t3)">#</th>
+      <th style="background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:left;font-size:10px;color:var(--t3);cursor:pointer" onclick="da_sortT(1)">브랜드</th>
+      <th style="background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);font-size:10px;color:var(--t3)">유형</th>
+      <th style="background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-size:10px;color:var(--t3);cursor:pointer" onclick="da_sortT(3)">구매고객</th>
+      <th style="background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-size:10px;color:var(--t3);cursor:pointer;min-width:130px" onclick="da_sortT(4)">침투율</th>
+      <th style="background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-size:10px;color:var(--t3);cursor:pointer" onclick="da_sortT(5)">주문수</th>
+      <th style="background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-size:10px;color:var(--t3);cursor:pointer" onclick="da_sortT(6)">GMV</th>
+      <th style="background:var(--bg3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-size:10px;color:var(--t3);cursor:pointer" onclick="da_sortT(7)">평균단가</th>
+    </tr></thead>
+    <tbody id="da_tBody"></tbody>
+  </table>
+  </div>
+  <div class="da-ins">
+    <b style="color:var(--t1)">PB 시너지:</b> 마치마라+지재 번들 프로모션 기회. &nbsp;|&nbsp;
+    <b style="color:var(--t1)">프리미엄 업셀:</b> 쉬즈미스(AOV 6.3만)·지센(5.3만)·리스트(5.6만) 10%+ 침투. &nbsp;|&nbsp;
+    <b style="color:var(--t1)">다나앤페타 AOV 3.1만</b>은 교차 브랜드 대비 저단가 — 가성비 포지션 활용 가능.
+  </div>
+</div>
+</div>
+
+<!-- 6. 카테고리 침투율 -->
+<div class="da-sec">
+<div class="da-sec-title">6. 전체 카테고리 구매 침투율 & 핵심 인사이트</div>
+<div class="da-grid da-grid-2">
+  <div class="da-card">
+    <div class="bt">전체 카테고리 구매 침투율</div><div class="bs">다나앤페타 고객 67,587명 기준</div>
+    <div id="da_catBars"></div>
+    <div class="da-ins">의류 상의(90.8%)·바지(65%)·아우터(62.8%) 집중. <b style="color:var(--t1)">골프(37.8%)</b> 높음 → 골프웨어 라인 기회. 뷰티(23%) = 라이프스타일 전방위 소비자.</div>
+  </div>
+  <div class="da-card">
+    <div class="bt">핵심 인사이트 — 다나앤페타 전략 연결</div>
+    <div class="da-ins" style="border-left-color:var(--blue)"><b style="color:var(--t1)">기존 충성 고객 중심</b><br>90.5%가 기존 고객, 59.7%가 2년+ 이용자. 재진행 상품이 먹히는 이유.</div>
+    <div class="da-ins" style="border-left-color:var(--purple)"><b style="color:var(--t1)">PB 시너지 활용</b><br>마치마라+지재 교차구매 최상위. 퀸잇 기획전 함께 등장 시 노출 극대화.</div>
+    <div class="da-ins" style="border-left-color:var(--green)"><b style="color:var(--t1)">8일마다 재주문하는 헤비유저</b><br>LTV 102.4만원, 비구매 대비 3.9배. 충성 고객 유지가 최우선.</div>
+    <div class="da-ins" style="border-left-color:var(--amber)"><b style="color:var(--t1)">재구매율 개선 여지</b><br>86.2%가 1회 구매. 2회+ 유도 시 매출 구조 개선. 리타겟팅·후속쿠폰 필수.</div>
+    <div class="da-ins" style="border-left-color:var(--red)"><b style="color:var(--t1)">기획전·검색이 핵심 채널</b><br>첫 접점·최종 전환 모두 기획전 1위. 상품명 검색 최적화와 기획전 노출이 매출 직결.</div>
+  </div>
+</div>
+</div>
+
+</div><!-- /sub2 -->
+</div><!-- /p5 -->
 </div><!-- /wrap -->
+
+<script>
+// 서브탭 전환 — null 안전 처리
+function switchSub(id, el) {
+  const s1 = document.getElementById('sub1');
+  const s2 = document.getElementById('sub2');
+  if(s1) s1.style.display = id==='sub1'?'block':'none';
+  if(s2) s2.style.display = id==='sub2'?'block':'none';
+  // stab 클래스만 토글 (메인 ntab과 분리)
+  document.querySelectorAll('.stab').forEach(b=>{
+    b.style.borderBottomColor = 'transparent';
+    b.style.color = 'var(--t3)';
+  });
+  el.style.borderBottomColor = 'var(--blue)';
+  el.style.color = 'var(--blue)';
+}
+
+// 다나앤페타 고객 분석 차트
+function da_bars(id,data,lw,color){
+  const el=document.getElementById(id);if(!el)return;
+  const mx=Math.max(...data.map(d=>d.v));
+  el.innerHTML=data.map(d=>{
+    const p=(d.v/mx*100).toFixed(0);
+    return`<div class="da-br"><span class="da-br-l" style="width:${lw}px">${d.l}</span><div class="da-br-t"><div class="da-br-f" style="width:${p}%;background:${color}">${d.d||d.v.toLocaleString()}</div></div><span class="da-br-v">${d.s||''}</span></div>`;
+  }).join('');
+}
+da_bars('da_tenureBars',[
+  {l:'1개월 이내',v:2308,s:'3.7%'},{l:'1~3개월',v:2598,s:'4.2%'},{l:'3~6개월',v:2766,s:'4.5%'},
+  {l:'6~12개월',v:5179,s:'8.4%'},{l:'1~2년',v:12154,s:'19.6%'},{l:'2년 이상',v:37005,s:'59.7%'}
+],70,'var(--blue)');
+da_bars('da_firstBars',[
+  {l:'기획전',v:15770,s:'15.2%'},{l:'검색',v:10810,s:'10.4%'},{l:'카테고리',v:10057,s:'9.7%'},
+  {l:'상세-하단추천',v:8295,s:'8.0%'},{l:'홈 추천',v:3088,s:'3.0%'},{l:'유사브랜드',v:3036,s:'2.9%'},
+  {l:'브랜드 페이지',v:2612,s:'2.5%'},{l:'한정특가',v:2583,s:'2.5%'}
+],80,'var(--blue)');
+da_bars('da_lastBars',[
+  {l:'기획전',v:14046,s:'13.5%'},{l:'검색',v:10019,s:'9.7%'},{l:'카테고리',v:8983,s:'8.7%'},
+  {l:'상세-하단추천',v:7665,s:'7.4%'},{l:'최근본상품',v:3000,s:'2.9%'},{l:'홈 추천',v:2942,s:'2.8%'},
+  {l:'브랜드 페이지',v:2874,s:'2.8%'},{l:'유사브랜드',v:2845,s:'2.7%'}
+],80,'var(--t3)');
+da_bars('da_freqBars',[
+  {l:'1회',v:58228,s:'86.2%'},{l:'2회',v:7364,s:'10.9%'},{l:'3회',v:1424,s:'2.1%'},
+  {l:'4~5회',v:472,s:'0.7%'},{l:'6회+',v:99,s:'0.1%'}
+],40,'var(--blue)');
+da_bars('da_topBars',[
+  {l:'마린패턴 반팔 티셔츠',v:3155,s:'3,155명'},{l:'데일리 바람막이 집업',v:2141,s:'2,141명'},
+  {l:'소매라인 폴라니트',v:1887,s:'1,887명'},{l:'리본 브로치 도트 니트',v:1481,s:'1,481명'},
+  {l:'단추포인트 체크 셔츠',v:1386,s:'1,386명'}
+],100,'var(--green)');
+da_bars('da_catBars',[
+  {l:'의류 > 상의',v:90.8,s:'90.8%',d:'61,356명'},{l:'의류 > 바지',v:65,s:'65.0%',d:'43,908명'},
+  {l:'의류 > 아우터',v:62.8,s:'62.8%',d:'42,469명'},{l:'스포츠 > 골프',v:37.8,s:'37.8%',d:'25,543명'},
+  {l:'의류 > 원피스',v:37.4,s:'37.4%',d:'25,274명'},{l:'상하의세트',v:31.2,s:'31.2%',d:'21,064명'},
+  {l:'의류 > 스커트',v:25.1,s:'25.1%',d:'16,981명'},{l:'뷰티 > 스킨케어',v:23,s:'23.0%',d:'15,532명'},
+  {l:'잡화 > 스카프',v:19.5,s:'19.5%',d:'13,169명'},{l:'뷰티 > 색조',v:22.1,s:'22.1%',d:'14,936명'}
+],90,'var(--accent2,#64748b)');
+
+// 브랜드 테이블
+const da_brands=[
+  {n:'마치마라',t:'PB',b:17515,p:25.9,o:27663,g:838615005,pr:27521},
+  {n:'지재',t:'PB',b:12659,p:18.7,o:18167,g:682450442,pr:34706},
+  {n:'메르시마리에',t:'BY_SELLER',b:11554,p:17.1,o:16282,g:572559171,pr:32188},
+  {n:'프렌치시크',t:'BY_SELLER',b:11426,p:16.9,o:16099,g:688979505,pr:39844},
+  {n:'스타일온미',t:'BY_SELLER',b:11223,p:16.6,o:17550,g:827029355,pr:42769},
+  {n:'하루메이비',t:'BY_SELLER',b:10151,p:15.0,o:14954,g:618898610,pr:37475},
+  {n:'클릭앤퍼니',t:'BY_SELLER',b:10024,p:14.8,o:14122,g:634422365,pr:40991},
+  {n:'써니11',t:'BY_SELLER',b:9826,p:14.5,o:13801,g:565989338,pr:37849},
+  {n:'퀸이즈',t:'BY_SELLER',b:9592,p:14.2,o:12639,g:494303500,pr:36556},
+  {n:'메이뜰',t:'BY_SELLER',b:9544,p:14.1,o:12641,g:446966200,pr:33028},
+  {n:'오아즈',t:'BY_SELLER',b:9500,p:14.1,o:13419,g:426055740,pr:27457},
+  {n:'마쟈',t:'BY_SELLER',b:9281,p:13.7,o:14542,g:664876770,pr:40760},
+  {n:'데드라',t:'BY_SELLER',b:8649,p:12.8,o:13007,g:609249600,pr:42495},
+  {n:'비버리힐즈 폴로클럽',t:'BY_SELLER',b:8603,p:12.7,o:13606,g:428130725,pr:26741},
+  {n:'모노앳디',t:'BY_SELLER',b:8269,p:12.2,o:10720,g:573402584,pr:50516},
+  {n:'바겐슈타이거',t:'BY_SELLER',b:8174,p:12.1,o:12007,g:309536200,pr:20549},
+  {n:'쉬즈미스',t:'BY_SELLER',b:7429,p:11.0,o:15062,g:1081540200,pr:63008},
+  {n:'지센',t:'BY_SELLER',b:7339,p:10.9,o:13030,g:763846789,pr:53200},
+  {n:'어나더디',t:'BY_SELLER',b:7077,p:10.5,o:9077,g:149313930,pr:14287},
+  {n:'W.PBG',t:'BY_SELLER',b:7072,p:10.5,o:9958,g:563110500,pr:53681},
+  {n:'메종오브제',t:'BY_SELLER',b:6831,p:10.1,o:9978,g:217387330,pr:15823},
+  {n:'포레스트핏',t:'BY_SELLER',b:6714,p:9.9,o:9290,g:329933925,pr:32008},
+  {n:'쥬아르',t:'BY_SELLER',b:6457,p:9.6,o:8128,g:412856100,pr:47945},
+  {n:'뮤즈린',t:'BY_SELLER',b:6417,p:9.5,o:7840,g:419533490,pr:50717},
+  {n:'예시카',t:'BY_SELLER',b:6357,p:9.4,o:8034,g:305941600,pr:34829},
+  {n:'베러포유',t:'BY_SELLER',b:6116,p:9.0,o:8071,g:270305155,pr:30675},
+  {n:'에뛰드',t:'BY_SELLER',b:5960,p:8.8,o:7667,g:105768298,pr:12142},
+  {n:'디얼마미',t:'BY_SELLER',b:5937,p:8.8,o:8810,g:416773500,pr:43279},
+  {n:'원더슈즈',t:'BY_SELLER',b:5868,p:8.7,o:7371,g:354776810,pr:46608},
+  {n:'막스까르띠지오',t:'BY_SELLER',b:5826,p:8.6,o:8830,g:375440890,pr:38853},
+  {n:'엘칸토',t:'BY_SELLER',b:5814,p:8.6,o:7094,g:324898880,pr:44276},
+  {n:'리스트',t:'BY_SELLER',b:5765,p:8.5,o:10627,g:676920020,pr:56209},
+  {n:'룸페커',t:'BY_SELLER',b:5519,p:8.2,o:7581,g:347690714,pr:41200},
+  {n:'인베스트',t:'BY_SELLER',b:5517,p:8.2,o:7828,g:223933200,pr:25799},
+  {n:'예뻐 너',t:'BY_SELLER',b:5178,p:7.7,o:6510,g:300135430,pr:42464},
+  {n:'로즈미',t:'BY_SELLER',b:5117,p:7.6,o:6459,g:316630273,pr:45908},
+  {n:'베네베딩',t:'BY_SELLER',b:4980,p:7.4,o:6494,g:162416110,pr:20949},
+  {n:'리베레츠',t:'BY_SELLER',b:4761,p:7.0,o:7975,g:182641620,pr:21439},
+  {n:'올리비아로렌',t:'BY_SELLER',b:4601,p:6.8,o:8397,g:399277220,pr:43320},
+  {n:'핑크엘리제',t:'BY_SELLER',b:4481,p:6.6,o:5514,g:221661630,pr:37794},
+];
+let da_cFilter='all';let da_cSort={c:3,a:false};
+function da_fG(n){return n>=1e9?(n/1e9).toFixed(1)+'억':(n/1e8).toFixed(1)+'천만';}
+function da_renderT(d){
+  const tb=document.getElementById('da_tBody');if(!tb)return;
+  const mx=Math.max(...d.map(x=>x.p));
+  tb.innerHTML=d.map((b,i)=>{
+    const bw=(b.p/mx*60).toFixed(0);
+    const c=b.t==='PB'?'var(--purple)':'var(--blue)';
+    const tg=b.t==='PB'?'<span class="da-tag da-tag-pb">PB</span>':'<span class="da-tag da-tag-s">직입점</span>';
+    return`<tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 8px;color:var(--t3);font-size:10px">${i+1}</td><td style="padding:5px 8px"><b style="color:var(--t1)">${b.n}</b></td><td style="padding:5px 8px">${tg}</td><td style="padding:5px 8px;text-align:right">${b.b.toLocaleString()}</td><td style="padding:5px 8px;text-align:right"><span style="display:inline-block;width:${bw}px;height:8px;background:${c};border-radius:2px;vertical-align:middle;margin-right:3px"></span>${b.p}%</td><td style="padding:5px 8px;text-align:right">${b.o.toLocaleString()}</td><td style="padding:5px 8px;text-align:right">${da_fG(b.g)}</td><td style="padding:5px 8px;text-align:right">${b.pr.toLocaleString()}원</td></tr>`;
+  }).join('');
+}
+function da_filterType(t,el){da_cFilter=t;document.querySelectorAll('.da-fbtn').forEach(b=>b.classList.remove('act'));el.classList.add('act');da_applyF();}
+function da_filterTable(){da_applyF();}
+function da_applyF(){
+  const s=(document.getElementById('da_searchInput')||{}).value||'';
+  let f=da_brands.filter(b=>(da_cFilter==='all'||b.t===da_cFilter)&&(!s||b.n.toLowerCase().includes(s.toLowerCase())));
+  f=da_sortD(f);da_renderT(f);
+}
+function da_sortD(d){
+  const keys=[null,'n','t','b','p','o','g','pr'];const k=keys[da_cSort.c];if(!k)return d;
+  return[...d].sort((a,b)=>{const va=a[k],vb=b[k];if(typeof va==='string')return da_cSort.a?va.localeCompare(vb):vb.localeCompare(va);return da_cSort.a?va-vb:vb-va;});
+}
+function da_sortT(c){if(da_cSort.c===c)da_cSort.a=!da_cSort.a;else{da_cSort.c=c;da_cSort.a=false;}da_applyF();}
+da_renderT(da_brands);
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -1002,7 +1634,62 @@ const dSS= [202679332,182336129,174792048,217486080,236847117,158312720,null,nul
 const dFW= [null,null,null,null,null,null,139424333,127771595,175563503,149228159,159282344,143945913,142991890,null,null];
 const d26= [null,null,null,null,null,null,null,null,null,null,null,null,null,142926090,45432836];
 
-Chart.defaults.color='#6b6b80';
+// 퀸잇 MAU 성장 차트
+new Chart(document.getElementById('mauChart'),{
+  type:'bar',
+  data:{
+    labels:['2025.02','2025.09'],
+    datasets:[{
+      label:'MAU',
+      data:[185,270],
+      backgroundColor:['rgba(79,142,247,0.5)','rgba(79,142,247,0.85)'],
+      borderRadius:4
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`MAU ${c.raw}만명`}}},
+    scales:{
+      x:{ticks:{color:'#888',font:{size:10}},grid:{display:false}},
+      y:{ticks:{color:'#888',font:{size:10},callback:v=>v+'만'},grid:{color:'rgba(128,128,128,0.1)'},min:0,max:320}
+    }
+  }
+});
+// 연령대별 패션 소비 비중
+new Chart(document.getElementById('ageChart'),{
+  type:'doughnut',
+  data:{
+    labels:['50대','40대','60대','30대','20대','10대'],
+    datasets:[{
+      data:[23.6,22.8,17.3,18,15.8,2.5],
+      backgroundColor:['#4f8ef7','#3ecf7a','#a07cf7','#6b6b80','#9ca3af','#d1d5db'],
+      borderWidth:0
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,position:'right',labels:{font:{size:9},color:'#888',boxWidth:10,padding:6}},
+    tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw}%`}}}
+  }
+});
+// 단독사용률 비교
+new Chart(document.getElementById('soloChart'),{
+  type:'bar',
+  data:{
+    labels:['퀸잇','에이블리','나이키','무신사','유니클로'],
+    datasets:[{
+      label:'단독사용률',
+      data:[56.7,38.4,34.9,32.3,31.1],
+      backgroundColor:['rgba(79,142,247,0.85)','rgba(128,128,128,0.4)','rgba(128,128,128,0.4)','rgba(128,128,128,0.4)','rgba(128,128,128,0.4)'],
+      borderRadius:4
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw}%`}}},
+    scales:{
+      x:{ticks:{color:'#888',font:{size:9}},grid:{display:false}},
+      y:{ticks:{color:'#888',font:{size:10},callback:v=>v+'%'},grid:{color:'rgba(128,128,128,0.1)'},min:0,max:70}
+    }
+  }
+});
 new Chart(document.getElementById('cmpChart'),{
   type:'bar',
   data:{labels,datasets:[
